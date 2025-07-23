@@ -1,0 +1,143 @@
+        /* --- 全体のスタイル --- */
+        :root {
+            --primary-color: #00bfff;
+            --secondary-color: #4c5fdc;
+            --accent-color: #a367e0;
+            --background-color: #0d1117;
+            --surface-color: rgba(22, 27, 41, 0.6);
+            --text-color: #e0e6f0;
+            --text-muted-color: #8899aa;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --aurora-opacity: 0.3;
+        }
+
+        body {
+            font-family: 'Inter', 'Roboto', 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: var(--background-color);
+            margin: 0;
+            padding: 2rem;
+            box-sizing: border-box;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* --- Academic Theme --- */
+        body.theme-academic {
+            --primary-color: #0d6efd;
+            --secondary-color: #0a58ca;
+            --accent-color: #6f42c1;
+            --background-color: #f8f9fa;
+            --surface-color: rgba(255, 255, 255, 0.7);
+            --text-color: #212529;
+            --text-muted-color: #6c757d;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --aurora-opacity: 0;
+        }
+        body.theme-academic .hljs { background: #f3f4f6; color: #383a42; }
+
+        /* --- オーロラ風アニメーション背景 --- */
+        #aurora-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; transition: opacity 0.8s; }
+        #aurora-background { opacity: var(--aurora-opacity); }
+        .aurora-shape { position: absolute; border-radius: 50%; filter: blur(120px); }
+        .aurora-shape-1 { width: 600px; height: 600px; background: var(--primary-color); top: -200px; left: -200px; animation: move-aurora-1 35s infinite alternate ease-in-out; }
+        .aurora-shape-2 { width: 500px; height: 500px; background: var(--accent-color); bottom: -150px; right: -150px; animation: move-aurora-2 40s infinite alternate ease-in-out; }
+        @keyframes move-aurora-1 { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(300px, 150px) rotate(120deg); } }
+        @keyframes move-aurora-2 { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(-300px, -150px) rotate(-120deg); } }
+
+        /* --- プレゼンテーションコンテナ --- */
+        #presentation-wrapper { width: 90vw; height: min(calc(90vw * 9 / 16), calc(100vh - 180px)); max-width: 1280px; max-height: calc(100vh - 180px); position: relative; z-index: 1; perspective: 1500px; cursor: none; }
+        #presentation { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+
+        /* --- 各スライドの基本スタイル (深度スライド) --- */
+        .slide { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 4% 5%; box-sizing: border-box; display: flex; flex-direction: column; border-radius: 16px; background: var(--surface-color); border: 1px solid var(--border-color); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); backdrop-filter: blur(24px); opacity: 0; transform: translateZ(-200px) scale(0.9); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s, border-color 0.5s; pointer-events: none; }
+        .slide.is-active { opacity: 1; transform: translateZ(0) scale(1); pointer-events: auto; }
+        .slide.is-exiting { opacity: 0; transform: translateZ(200px) scale(1.1); pointer-events: none; }
+
+        /* --- スライド内要素のアニメーション --- */
+        @keyframes fadeIn-slide-element { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        .slide.is-active > * { animation: fadeIn-slide-element 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+        .slide.is-active > *:nth-child(2) { animation-delay: 0.6s; }
+        .slide.is-active > *:nth-child(3) { animation-delay: 0.8s; }
+        .slide.is-active > *:nth-child(4) { animation-delay: 1.0s; }
+
+        /* --- 段階的アニメーション (Fragments) --- */
+        .fragment { opacity: 0; transition: opacity 0.5s ease-in-out; }
+        .fragment.is-visible { opacity: 1; }
+
+        /* --- スライド内要素のスタイル --- */
+        h1, h2, h3 { font-family: 'Inter', sans-serif; margin: 0 0 24px 0; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); color: var(--text-color); font-weight: 700; text-shadow: none; letter-spacing: 0.5px; transition: color 0.5s, border-color 0.5s; }
+        h1 { color: #fff; font-size: 2.8em; }
+        h2 { color: #fff; font-size: 2.2em; }
+        h3 { font-size: 1.5em; border-bottom-style: solid; color: var(--primary-color); }
+        body.theme-academic h1, body.theme-academic h2 { color: var(--text-color); }
+        p, li { font-size: 1.1em; font-weight: 400; line-height: 1.7; }
+        ul, ol { padding-left: 30px; margin-top: 0; }
+        .slide-content { flex-grow: 1; overflow: hidden; min-height: 0; }
+        .slide-content ol li { cursor: pointer; transition: color 0.3s; }
+        .slide-content ol li:hover { color: var(--primary-color); }
+
+        /* --- 各スライドのレイアウト調整 --- */
+        .title-slide { justify-content: center; align-items: center; text-align: center; }
+        .title-slide h1 { font-size: 3.2em; border: none; }
+        .title-slide .author { font-size: 1.5em; color: var(--text-color); margin-top: 24px; }
+        .title-slide .date { font-size: 1.2em; color: var(--text-muted-color); margin-top: 12px; }
+        .three-column { display: flex; gap: 30px; width: 100%; height: 100%; }
+        .column { flex: 1; overflow: hidden; }
+        .column h3 { font-size: 1.3em; }
+        .column p { font-size: 1em; }
+        .end-slide { justify-content: center; align-items: center; text-align: center; }
+        .end-slide h1 { color: #fff; border: none; }
+        body.theme-academic .end-slide h1 { color: var(--text-color); }
+        .image-slide-content, .video-slide-content { display: flex; justify-content: center; align-items: center; height: 100%; }
+        .image-slide-content img, .video-slide-content iframe, .video-slide-content video { max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: none; aspect-ratio: 16 / 9; width: 100%; }
+        .point-cloud-container { flex-grow: 1; position: relative; }
+        .point-cloud-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+
+        /* --- ヘッダーとフッター --- */
+        .slide-header { position: absolute; left: 5%; top: 3%; font-size: 0.9em; color: var(--accent-color); }
+        .slide-footer { position: absolute; left: 5%; right: 5%; bottom: 3%; display: flex; justify-content: space-between; font-size: 0.9em; color: var(--text-muted-color); }
+
+        /* --- ナビゲーション --- */
+        #controls { margin-top: 25px; display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; max-width: 800px; z-index: 1; }
+        #navigation { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #controls button { background-color: rgba(255,255,255,0.1); color: var(--text-color); border: 1px solid var(--text-muted-color); padding: 10px 20px; font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 0.9em; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        #controls button:hover:not(:disabled) { background-color: var(--primary-color); color: var(--background-color); border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
+        #controls button:disabled { border-color: #4a5568; color: #4a5568; cursor: not-allowed; background-color: transparent; }
+        #page-number { font-size: 1.2em; font-weight: 400; color: var(--text-muted-color); width: 80px; text-align: center; }
+        #progress-bar-container { width: 100%; height: 4px; background-color: rgba(0, 191, 255, 0.1); border-radius: 2px; }
+        #progress-bar { width: 0%; height: 100%; background: var(--primary-color); border-radius: 2px; transition: width 0.5s ease-out; }
+
+        /* --- スピーカーノート --- */
+        #speaker-notes-window { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80vw; max-width: 900px; height: 70vh; background: #161b22; border: 1px solid var(--border-color); border-radius: 16px; z-index: 100; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transition: opacity 0.3s, transform 0.3s; }
+        #speaker-notes-window.is-hidden { opacity: 0; transform: translate(-50%, -50%) scale(0.95); pointer-events: none; }
+        .notes-header { padding: 16px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .notes-header h3 { margin: 0; padding: 0; border: none; font-size: 1.2em; }
+        .notes-header button { background: none; border: none; color: var(--text-muted-color); font-size: 1.5em; cursor: pointer; }
+        .notes-main { display: flex; flex-grow: 1; min-height: 0; }
+        .notes-content { flex-basis: 60%; padding: 24px; font-size: 1.1em; line-height: 1.8; overflow-y: auto; border-right: 1px solid var(--border-color); }
+        .notes-sidebar { flex-basis: 40%; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+        .notes-timers { display: flex; justify-content: space-between; text-align: center; }
+        .notes-timers h4 { margin: 0 0 10px 0; color: var(--text-muted-color); font-weight: 400; }
+        .notes-timers p { margin: 0; font-size: 2em; font-family: 'Orbitron', sans-serif; }
+        #next-slide-preview { flex-grow: 1; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background-color); overflow: hidden; position: relative; }
+        #next-slide-preview .slide { transform-origin: top left; }
+
+        /* --- レーザーポインター --- */
+        #laser-pointer { position: fixed; width: 20px; height: 20px; background-color: rgba(255, 0, 0, 0.8); border-radius: 50%; box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.5); pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.2s; }
+        #laser-pointer.is-visible { opacity: 1; }
+
+        /* --- ライトボックス --- */
+        #lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; cursor: zoom-out; }
+        #lightbox-overlay.is-visible { opacity: 1; pointer-events: auto; }
+        #lightbox-content { max-width: 90vw; max-height: 90vh; overflow: auto; transform: scale(0.95); transition: transform 0.3s ease; cursor: default; }
+        #lightbox-overlay.is-visible #lightbox-content { transform: scale(1); }
+        #lightbox-content > * { width: 100%; height: auto; display: block; border-radius: 8px; }
+        #lightbox-content pre { max-height: 80vh; }
+        .zoomable { cursor: zoom-in; }
