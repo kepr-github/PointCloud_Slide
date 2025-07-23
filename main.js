@@ -177,7 +177,7 @@
             }
 
             function updateControls() {
-                pageNumberEl.textContent = `${currentSlide + 1} / ${totalSlides}`;
+                pageNumberEl.textContent = `${currentSlide + 1}/${totalSlides}`;
                 const pageInfoEls = document.querySelectorAll('.page-info');
                 pageInfoEls.forEach(el => { el.textContent = `Page ${currentSlide + 1}`; });
                 const progressPercentage = totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 0;
