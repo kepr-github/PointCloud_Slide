@@ -482,11 +482,17 @@
                 document.removeEventListener('mouseup', progressDragEnd);
                 document.removeEventListener('touchend', progressDragEnd);
             }
+            const themes = ['', 'theme-academic', 'theme-forest', 'theme-ocean'];
+            let currentThemeIndex = 0;
             function toggleTheme() {
-                document.body.classList.toggle('theme-academic');
-                const isAcademic = document.body.classList.contains('theme-academic');
-                document.getElementById('hljs-theme-dark').disabled = isAcademic;
-                document.getElementById('hljs-theme-light').disabled = !isAcademic;
+                document.body.classList.remove(themes[currentThemeIndex]);
+                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+                const newTheme = themes[currentThemeIndex];
+                if (newTheme) document.body.classList.add(newTheme);
+                const lightThemes = ['theme-academic'];
+                const isLight = lightThemes.includes(newTheme);
+                document.getElementById('hljs-theme-dark').disabled = isLight;
+                document.getElementById('hljs-theme-light').disabled = !isLight;
             }
             function toggleLaser() { laserPointer.classList.toggle('is-visible'); }
             function toggleFullscreen() {
