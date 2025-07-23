@@ -286,6 +286,9 @@
                                 }
                             });
                             slideData[slideIndex].pointData = { vertices, colors };
+                            if (colors.length > 0) {
+                                canvas.dataset.useVertexColors = 'true';
+                            }
                             initPointCloud(canvas, slideIndex, isModal);
                         })
                         .catch(err => console.error(`failed to load ${src}`, err));
@@ -302,10 +305,14 @@
                 controls.enableDamping = true;
 
                 const pointsCount = parseInt(canvas.dataset.points) || 0;
-                const useVertexColors = canvas.dataset.useVertexColors === 'true';
-                
+                let useVertexColors = canvas.dataset.useVertexColors === 'true';
+
                 const vertices = slideData[slideIndex].pointData?.vertices || [];
                 const colors = slideData[slideIndex].pointData?.colors || [];
+                if (!useVertexColors && colors.length > 0) {
+                    useVertexColors = true;
+                    canvas.dataset.useVertexColors = 'true';
+                }
 
                 if (pointsCount > 0 && vertices.length === 0) {
                      for (let i = 0; i < pointsCount; i++) {
@@ -394,21 +401,24 @@
                                     const colors = [];
                                     const lines = text.split('\n');
                                     lines.forEach(line => {
-                                    const parts = line.trim().split(/[\s,]+/).map(Number);
-                                    if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
-                                        vertices.push(parts[0], parts[1], parts[2]);
-                                        if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
-                                            let [r, g, b] = parts.slice(3, 6);
-                                            if (r > 1 || g > 1 || b > 1) {
-                                                r /= 255;
-                                                g /= 255;
-                                                b /= 255;
+                                        const parts = line.trim().split(/[\s,]+/).map(Number);
+                                        if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
+                                            vertices.push(parts[0], parts[1], parts[2]);
+                                            if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
+                                                let [r, g, b] = parts.slice(3, 6);
+                                                if (r > 1 || g > 1 || b > 1) {
+                                                    r /= 255;
+                                                    g /= 255;
+                                                    b /= 255;
+                                                }
+                                                colors.push(r, g, b);
                                             }
-                                            colors.push(r, g, b);
                                         }
-                                    }
                                     });
                                     slideDataEntry.pointData = { vertices, colors };
+                                    if (colors.length > 0) {
+                                        slide.querySelector('.point-cloud-canvas').dataset.useVertexColors = 'true';
+                                    }
                                     initPointCloud(slide.querySelector('.point-cloud-canvas'), index);
                                 };
                                 reader.readAsText(file);
