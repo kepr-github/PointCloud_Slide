@@ -94,6 +94,11 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 
 各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。
 
+### 型定義ファイル
+
+スライドデータの構造を厳密に扱いたい場合は、TypeScript 用の `slideTypes.ts` と
+JSON スキーマ `slides.schema.json` を利用できます。IDE の補完や検証に役立ちます。
+
 ### ローカルファイルの利用
 
 `image`、`video`、`pointCloud` の各スライドでは `fileInputId` プロパティを指定することで、
