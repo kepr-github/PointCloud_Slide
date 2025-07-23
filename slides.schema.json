@@ -112,6 +112,7 @@
           "properties": {
             "type": { "const": "pointCloud" },
             "points": { "type": "integer" },
+            "pointCloudSrc": { "type": "string" },
             "useVertexColors": { "type": "boolean" },
             "caption": { "type": "string" }
           }

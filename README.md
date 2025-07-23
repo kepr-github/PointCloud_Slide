@@ -105,6 +105,8 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 
 - type: pointCloud
   pointCloudSrc: "data/points.txt"
+  # RGB 値が含まれるファイルでは useVertexColors: true を指定します
+  # useVertexColors: true
 ```
 
 パスは `index.html` からの相対パスで記述してください。
@@ -120,7 +122,7 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 | `title` | `title`, `author`, `date`, `notes` | タイトルスライド |
 | `list` | `header`, `title`, `content`, `footerText` | 箇条書きのスライド。`content` 配下に `text` などを記入します |
 | `code` | `header`, `title`, `language`, `code` | ソースコードを表示します |
-| `pointCloud` | `header`, `title`, `points`, `pointCloudSrc`, `fileInputId` | 点群データを three.js で描画します |
+| `pointCloud` | `header`, `title`, `points`, `pointCloudSrc`, `fileInputId`, `useVertexColors` | 点群データを three.js で描画します |
 | `image` | `header`, `title`, `imageSrc`, `fileInputId` | 画像の表示用スライド |
 | `video` | `header`, `title`, `videoId`, `videoSrc`, `fileInputId` | YouTube もしくはローカル動画を再生します |
 | `end` | `title` | 終了画面 |
@@ -155,6 +157,7 @@ JSON スキーマ `slides.schema.json` を利用できます。IDE の補完や�
 
 動画の場合は `videoId` を省略し、`fileInputId` のみを指定してください。点群ファイルは
 `x y z` や `x,y,z` など空白またはカンマ区切りで `r,g,b` を含めることもできるテキスト（CSV 等）を読み込みます。
+色値は 0-1 または 0-255 のどちらでも構いません。
 ファイルを選択すると、その内容がすぐにスライドへ反映されます。
 
 ### `slides.yaml` の詳細
@@ -220,7 +223,8 @@ editableSlides:
 **pointCloud**
 - `points`: 乱数で生成する点の数（`fileInputId` がない場合に使用）
 - `fileInputId`: ローカルの点群ファイルを読み込む ID
-- `useVertexColors`: `true` のとき r,g,b を含む点群ファイルをカラー表示
+- `pointCloudSrc`: 点群データを含むテキストファイルのパス
+- `useVertexColors`: `true` のとき r,g,b を含む点群ファイルをカラー表示 (値は 0-1 または 0-255 を想定)
 - `caption`: 点群の説明文
 - `zoomable`: 点群表示を拡大するか
 
