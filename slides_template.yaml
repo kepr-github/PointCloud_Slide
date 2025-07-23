@@ -1,5 +1,6 @@
 # スライド定義用テンプレート
 # 必要に応じて各プロパティを編集してください
+defaultFooterText: "keishu"
 editableSlides:
   - type: title
     title: "タイトルを入力"
