@@ -131,6 +131,8 @@
         .notes-timers { display: flex; justify-content: space-between; text-align: center; }
         .notes-timers h4 { margin: 0 0 10px 0; color: var(--text-muted-color); font-weight: 400; }
         .notes-timers p { margin: 0; font-size: 2em; font-family: 'Orbitron', sans-serif; }
+        #timer-reset-btn { background-color: rgba(255,255,255,0.1); color: var(--text-color); border: 1px solid var(--text-muted-color); padding: 6px 12px; font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 0.8em; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; align-self: center; }
+        #timer-reset-btn:hover { background-color: var(--primary-color); color: var(--background-color); border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
         #next-slide-preview { flex-grow: 1; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background-color); overflow: hidden; position: relative; }
         #next-slide-preview .slide { transform-origin: top left; }
 
