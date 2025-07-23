@@ -265,11 +265,11 @@
                         .then(text => {
                             const vertices = [];
                             const colors = [];
-                            text.split('\n').forEach(line => {
-                                const parts = line.split(',').map(Number);
-                                if (parts.length >= 3) {
+                            text.split(/\r?\n/).forEach(line => {
+                                const parts = line.trim().split(/[\s,]+/).map(Number);
+                                if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
                                     vertices.push(parts[0], parts[1], parts[2]);
-                                    if (parts.length >= 6) {
+                                    if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
                                         colors.push(parts[3], parts[4], parts[5]);
                                     }
                                 }
