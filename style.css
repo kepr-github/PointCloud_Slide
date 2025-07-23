@@ -114,8 +114,7 @@
         ul, ol { padding-left: 30px; margin-top: 0; }
         .slide-content {
             flex-grow: 1;
-            overflow-y: auto;
-            overflow-x: visible;
+            overflow: hidden; /* スクロールバーを表示せず、見える範囲のみ表示 */
             min-height: 0;
             display: flex;
             flex-direction: column;
