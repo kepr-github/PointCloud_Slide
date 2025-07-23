@@ -615,7 +615,7 @@
                     .then(text => {
                         const yamlData = jsyaml.load(text);
                         defaultFooterText = yamlData.defaultFooterText || '';
-                        slideData = [...(yamlData.editableSlides || []), ...(yamlData.fixedSlides || [])];
+                        slideData = [...(yamlData.editableSlides || [])];
                         init();
                     })
                     .catch(err => {
