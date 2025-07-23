@@ -10,6 +10,7 @@
             --border-color: rgba(255, 255, 255, 0.1);
             --aurora-opacity: 0.3;
             --font-scale: 1.25; /* 基本となるフォント倍率 */
+            --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
         }
 
         body {
@@ -27,6 +28,8 @@
             overflow-x: hidden;
             overflow-y: auto;
             transition: background-color 0.5s, color 0.5s;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
         /* --- Academic Theme --- */
@@ -40,6 +43,7 @@
             --text-muted-color: #6c757d;
             --border-color: rgba(0, 0, 0, 0.1);
             --aurora-opacity: 0;
+            --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
         }
         body.theme-academic .hljs { background: #f3f4f6; color: #383a42; }
 
@@ -168,9 +172,9 @@
 
         /* --- ナビゲーション --- */
         #controls { margin-top: 25px; display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; max-width: 800px; z-index: 1; }
-        #navigation { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #navigation { display: flex; align-items: center; justify-content: center; gap: 20px; }
         #controls button {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255,255,255,0.05);
             color: var(--text-color);
             border: 1px solid var(--text-muted-color);
             padding: 10px 20px;
@@ -187,7 +191,12 @@
             justify-content: center;
             line-height: 1;
         }
-        #controls button:hover:not(:disabled) { background-color: var(--primary-color); color: var(--background-color); border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
+        #controls button:hover:not(:disabled) {
+            background-image: var(--primary-gradient);
+            color: var(--background-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
         #controls button:disabled { border-color: #4a5568; color: #4a5568; cursor: not-allowed; background-color: transparent; }
         body.is-fullscreen #controls { display: none; }
         #page-number {
@@ -212,18 +221,19 @@
             left: 0;
             width: 0%;
             height: 100%;
-            background: var(--primary-color);
+            background: var(--primary-gradient);
             border-radius: 6px;
-            transition: width 0.5s ease-out;
+            transition: width 0.5s ease-out, background 0.5s;
         }
         #progress-handle {
             position: absolute;
             top: 50%;
             left: 0%;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             background: var(--background-color);
-            border: 2px solid var(--primary-color);
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 8px var(--accent-color);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             pointer-events: auto;
