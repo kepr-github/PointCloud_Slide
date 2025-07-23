@@ -57,7 +57,7 @@
         #presentation { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
 
         /* --- 各スライドの基本スタイル (深度スライド) --- */
-        .slide { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 4% 5%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-radius: 16px; background: var(--surface-color); border: 1px solid var(--border-color); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); backdrop-filter: blur(24px); opacity: 0; transform: translateZ(-200px) scale(0.9); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s, border-color 0.5s; pointer-events: none; }
+        .slide { width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 4% 5%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; border-radius: 16px; background: var(--surface-color); border: 1px solid var(--border-color); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); backdrop-filter: blur(24px); opacity: 0; transform: translateZ(-200px) scale(0.9); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s, border-color 0.5s; pointer-events: none; }
         .slide.is-active { opacity: 1; transform: translateZ(0) scale(1); pointer-events: auto; }
         .slide.is-exiting { opacity: 0; transform: translateZ(200px) scale(1.1); pointer-events: none; }
 
@@ -88,8 +88,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
+            align-items: flex-start;
+            text-align: left;
             width: 100%;
         }
         .slide-content ol { text-align: left; }
@@ -97,7 +97,7 @@
         .slide-content ol li:hover { color: var(--primary-color); }
 
         /* --- 各スライドのレイアウト調整 --- */
-        .title-slide { justify-content: center; align-items: center; text-align: center; }
+        .title-slide { justify-content: center; align-items: flex-start; text-align: left; }
         .title-slide h1 { font-size: 3.2em; border: none; }
         .title-slide .author { font-size: 1.5em; color: var(--text-color); margin-top: 24px; }
         .title-slide .date { font-size: 1.2em; color: var(--text-muted-color); margin-top: 12px; }
@@ -105,7 +105,7 @@
         .column { flex: 1; overflow: hidden; }
         .column h3 { font-size: 1.3em; }
         .column p { font-size: 1.3em; }
-        .end-slide { justify-content: center; align-items: center; text-align: center; }
+        .end-slide { justify-content: center; align-items: flex-start; text-align: left; }
         .end-slide h1 { color: #fff; border: none; }
         body.theme-academic .end-slide h1 { color: var(--text-color); }
         .image-slide-content, .video-slide-content { display: flex; justify-content: center; align-items: center; height: 100%; }
