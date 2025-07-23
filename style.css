@@ -83,7 +83,7 @@
         .slide-content {
             flex-grow: 1;
             overflow-y: auto;
-            overflow-x: hidden;
+            overflow-x: visible;
             min-height: 0;
             display: flex;
             flex-direction: column;
