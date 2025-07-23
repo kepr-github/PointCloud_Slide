@@ -45,6 +45,24 @@ editableSlides:
 - `fixedSlides` セクションはテンプレートとして固定されており、通常は変更不要です。
 - スライドの種類（`type`）によって利用できるプロパティが異なります。
 
+## スライドテンプレートの利用方法
+
+本リポジトリには `slides_template.yaml` を同梱しています。新しいプレゼンテーションを作成する際はこのファイルをコピーし、内容を編集して `slides.yaml` として保存してください。
+
+### 利用できる型一覧
+
+| type | 主なプロパティ | 説明 |
+|------|----------------|------|
+| `title` | `title`, `author`, `date`, `notes` | タイトルスライド |
+| `list` | `header`, `title`, `content`, `footerText` | 箇条書きのスライド。`content` 配下に `text` などを記入します |
+| `code` | `header`, `title`, `language`, `code`, `zoomable` | ソースコードを表示します |
+| `pointCloud` | `header`, `title`, `points`, `fileInputId`, `zoomable` | 点群データを three.js で描画します |
+| `image` | `header`, `title`, `imageSrc`, `fileInputId`, `zoomable` | 画像の表示用スライド |
+| `video` | `header`, `title`, `videoId`, `fileInputId`, `zoomable` | YouTube もしくはローカル動画を再生します |
+| `end` | `title` | 終了画面 |
+
+各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。
+
 変更を保存したら、ブラウザをリロードすることで更新後のスライドを確認できます。
 
 ## ライセンス
