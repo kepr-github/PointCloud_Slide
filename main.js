@@ -390,7 +390,12 @@
                 externalNotesWindow = window.open('', 'speaker-notes', 'width=900,height=700');
                 if (!externalNotesWindow) return;
                 const notesHTML = notesWindow.outerHTML.replace('is-hidden', '');
-                externalNotesWindow.document.write(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>Speaker Notes</title><link rel="stylesheet" href="style.css"></head><body>` + notesHTML + `</body></html>`);
+                const styleHref = new URL('style.css', window.location.href).href;
+                externalNotesWindow.document.write(
+                    `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>Speaker Notes</title><link rel="stylesheet" href="${styleHref}"></head><body>` +
+                    notesHTML +
+                    `</body></html>`
+                );
                 externalNotesWindow.document.close();
 
                 const extNotesContent = externalNotesWindow.document.getElementById('notes-content');
