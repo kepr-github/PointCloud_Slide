@@ -66,7 +66,7 @@ editableSlides:
     header: "4. 拡張機能"
     title: "インタラクティブな3D点群データ"
     caption: "three.js を利用して3Dデータを描画しています。マウスでドラッグしてモデルを回転できます。"
-    points: 20000
+    points: 10000
     notes: "three.jsとOrbitControlsを統合したデモです。球状の点群データを生成しています。"
   - type: pointCloud
     header: "4. 拡張機能"
