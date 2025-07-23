@@ -57,7 +57,6 @@ editableSlides:
     footerText: ""
     notes: ""
 
-fixedSlides:
   - type: end
     title: "ご清聴ありがとうございました"
     notes: ""

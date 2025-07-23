@@ -62,7 +62,7 @@ editableSlides:
 ```
 
 - `editableSlides` セクション内に表示したいスライドを順番に記述します。
-- `fixedSlides` セクションはテンプレートとして固定されており、通常は変更不要です。
+- 以前存在した `fixedSlides` セクションは廃止され、すべてのスライドを `editableSlides` に記述します。
 - スライドの種類（`type`）によって利用できるプロパティが異なります。
 - `defaultFooterText` を指定すると、各スライドで `footerText` を書かなくても共通のフッターを表示できます。
 
