@@ -6,6 +6,7 @@
             const notesBtn = document.getElementById('notes-btn');
             const fullscreenBtn = document.getElementById('fullscreen-btn');
             const themeBtn = document.getElementById('theme-btn');
+            const pdfBtn = document.getElementById('pdf-btn');
             const laserBtn = document.getElementById('laser-btn');
             const closeNotesBtn = document.getElementById('close-notes-btn');
             const pageNumberEl = document.getElementById('page-number');
@@ -359,6 +360,7 @@
                     case 'f': toggleFullscreen(); break;
                     case 'n': toggleSpeakerNotes(); break;
                     case 'l': toggleLaser(); break;
+                    case 'p': exportPDF(); break;
                     case 'Escape': closeLightbox(); break;
                 }
             }
@@ -457,6 +459,31 @@
                 if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => alert(`Fullscreen error: ${err.message}`));
                 else if (document.exitFullscreen) document.exitFullscreen();
             }
+
+            async function exportPDF() {
+                if (!window.jspdf || !html2canvas) {
+                    alert('PDF ライブラリの読み込みに失敗しました');
+                    return;
+                }
+                const { jsPDF } = window.jspdf;
+                const width = presentation.clientWidth;
+                const height = presentation.clientHeight;
+                const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [width, height] });
+                const originalSlide = currentSlide;
+                for (let i = 0; i < slides.length; i++) {
+                    showSlide(i);
+                    await new Promise(r => setTimeout(r, 800));
+                    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                        await MathJax.typesetPromise();
+                    }
+                    const canvas = await html2canvas(slides[i]);
+                    const img = canvas.toDataURL('image/png');
+                    if (i > 0) pdf.addPage();
+                    pdf.addImage(img, 'PNG', 0, 0, width, height);
+                }
+                showSlide(originalSlide);
+                pdf.save('slides.pdf');
+            }
             function handlePresentationClick(event) {
                 const jumpTarget = event.target.closest('[data-jump-to]');
                 if (jumpTarget) {
@@ -552,6 +579,7 @@
                 fullscreenBtn.addEventListener('click', toggleFullscreen);
                 themeBtn.addEventListener('click', toggleTheme);
                 laserBtn.addEventListener('click', toggleLaser);
+                pdfBtn.addEventListener('click', exportPDF);
                 timerResetBtn.addEventListener('click', resetTimer);
                 presentation.addEventListener('click', handlePresentationClick);
                 lightboxOverlay.addEventListener('click', closeLightbox);
@@ -573,6 +601,7 @@
                         case 'f': toggleFullscreen(); break;
                         case 'n': toggleSpeakerNotes(); break;
                         case 'l': toggleLaser(); break;
+                        case 'p': exportPDF(); break;
                         case 'Escape': closeLightbox(); break;
                     }
                 });
