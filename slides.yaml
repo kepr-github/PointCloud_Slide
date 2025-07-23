@@ -91,6 +91,7 @@ editableSlides:
   - type: list
     header: "5. 高度な機能"
     title: "発表者ツール"
+    ordered: false
     content:
       - "<strong>URLハッシュ同期:</strong> スライドを移動すると、ブラウザのURLが自動的に更新されます (例: <code>#slide=3</code>)。このURLを共有すれば、誰でも同じスライドから閲覧を開始できます。"
       - "<strong>レーザーポインター:</strong> キーボードの『L』キーを押すと、仮想レーザーポインターが有効になります。発表中に特定の部分を指し示すのに便利です。"

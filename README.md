@@ -127,6 +127,7 @@ editableSlides:
 - `date`: 日付
 
 **list**
+- `ordered`: `true` で番号付きリスト、`false` でドットの箇条書き (省略時は `true`)
 - `content`: リスト項目の配列。要素は文字列、または以下を含むオブジェクトを指定できます。
   - `text`: 表示する文字列
   - `fragment`: `true` にすると項目を順に表示
