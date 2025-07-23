@@ -349,6 +349,10 @@
                 timeElapsedEls.push(extElapsed);
                 timeCurrentEls.push(extCurrent);
 
+                externalNotesWindow.addEventListener('resize', () => {
+                    updateSpeakerNotes();
+                });
+
                 externalNotesWindow.addEventListener('beforeunload', () => {
                     notesContentEls.splice(notesContentEls.indexOf(extNotesContent), 1);
                     nextSlidePreviewEls.splice(nextSlidePreviewEls.indexOf(extNextPreview), 1);
@@ -470,6 +474,7 @@
 
                 window.addEventListener('resize', () => {
                     updatePresentationSize();
+                    updateSpeakerNotes();
                     Object.values(threeJSInstances).forEach(instance => {
                         if (instance && instance.camera && instance.renderer && instance.canvas) {
                             const { camera, renderer, canvas } = instance;
