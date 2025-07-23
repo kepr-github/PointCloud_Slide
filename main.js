@@ -38,6 +38,7 @@
             let timerInterval;
             let threeJSInstances = {};
             let isDraggingProgress = false;
+            let defaultFooterText = '';
 
             function updatePresentationSize() {
                 const wrapper = document.getElementById('presentation-wrapper');
@@ -68,6 +69,7 @@
 
                 slideData.forEach((data, index) => {
                     let contentHTML = '';
+                    const footer = data.footerText !== undefined ? data.footerText : defaultFooterText;
                     // ファイル入力が必要なスライドのためにinput要素を準備
                     if (data.fileInputId) {
                         fileInputHTML += `<input type="file" id="${data.fileInputId}" />`;
@@ -79,20 +81,20 @@
                             break;
                         case 'list':
                             const listItems = data.content.map(item => `<li ${item.jumpTo ? `data-jump-to="${item.jumpTo}"` : ''} class="${item.fragment ? 'fragment' : ''}">${item.text || item}</li>`).join('');
-                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><ol>${listItems}</ol></div><footer class="slide-footer"><span>${data.footerText}</span><span class="page-info"></span></footer>`;
+                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><ol>${listItems}</ol></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'code':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre ${data.zoomable ? 'class="zoomable"' : ''}><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${data.footerText}</span><span class="page-info"></span></footer>`;
+                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre ${data.zoomable ? 'class="zoomable"' : ''}><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'image':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.zoomable ? 'class="zoomable"' : ''} ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${data.footerText}</span><span class="page-info"></span></footer>`;
+                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.zoomable ? 'class="zoomable"' : ''} ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'video':
                              let videoSrc = data.videoId ? `https://www.youtube.com/embed/${data.videoId}` : '';
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${data.videoId ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!data.videoId ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${data.videoId ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${data.footerText}</span><span class="page-info"></span></footer>`;
+                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${data.videoId ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!data.videoId ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${data.videoId ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'pointCloud':
-                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container ${data.zoomable ? 'zoomable' : ''}" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${data.footerText}</span><span class="page-info"></span></footer>`;
+                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container ${data.zoomable ? 'zoomable' : ''}" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'end':
                             contentHTML = `<div class="end-slide"><h1>${data.title}</h1></div>`;
@@ -610,6 +612,7 @@
                     .then(res => res.text())
                     .then(text => {
                         const yamlData = jsyaml.load(text);
+                        defaultFooterText = yamlData.defaultFooterText || '';
                         slideData = [...(yamlData.editableSlides || []), ...(yamlData.fixedSlides || [])];
                         init();
                     })

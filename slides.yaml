@@ -1,3 +1,4 @@
+defaultFooterText: "keishu"
 editableSlides:
   - type: title
     title: "Deconstructing a Web-Based Presentation"
@@ -18,7 +19,6 @@ editableSlides:
         jumpTo: 5
       - text: "高度な機能：発表者ツール"
         jumpTo: 9
-    footerText: "Meta Presentation"
     notes: "各項目をクリックすると、該当スライドにジャンプできることをデモします。"
   - type: list
     header: "1. はじめに"
@@ -30,7 +30,6 @@ editableSlides:
         fragment: true
       - text: "<strong>高い表現力:</strong> CSSとJavaScriptを駆使することで、本プレゼンテーションのようなインタラクティブで動的な表現が可能です。"
         fragment: true
-    footerText: "Meta Presentation"
     notes: "ウェブ技術の3つの主要な利点を強調します。ここではFragment機能を使い、1項目ずつ表示させます。"
   - type: code
     header: "2. 基盤と美学"
@@ -54,7 +53,6 @@ editableSlides:
         transform: translateZ(0);
       }
     zoomable: true
-    footerText: "Meta Presentation"
     notes: "HTMLのシンプルさと、CSSによるデザインの要点を説明します。"
   - type: list
     header: "3. 動力"
@@ -63,7 +61,6 @@ editableSlides:
       - "<strong>イベント処理:</strong> 「次へ」「前へ」ボタンやキーボードの矢印キーが押されたことを検知し、スライドを切り替える関数を呼び出します。"
       - "<strong>クラス操作:</strong> スライドを切り替える際、<code>is-active</code>や<code>is-exiting</code>といったCSSクラスを動的に付け替えます。CSS側では、これらのクラスの有無に応じてアニメーションが実行されるように定義されています。"
       - "<strong>状態管理:</strong> 現在のスライド番号（<code>currentSlide</code>）を常に保持し、プログレスバーの表示やナビゲーションボタンの有効/無効状態を更新します。"
-    footerText: "Meta Presentation"
     notes: "JavaScriptがプレゼンテーションの『エンジン』としてどのように機能しているかを説明します。"
   - type: pointCloud
     header: "4. 拡張機能"
@@ -71,7 +68,6 @@ editableSlides:
     caption: "three.js を利用して3Dデータを描画しています。クリックで拡大表示し、マウスでドラッグしてモデルを回転できます。"
     points: 20000
     zoomable: true
-    footerText: "Meta Presentation"
     notes: "three.jsとOrbitControlsを統合したデモです。球状の点群データを生成しています。"
   - type: pointCloud
     header: "4. 拡張機能"
@@ -80,7 +76,6 @@ editableSlides:
     fileInputId: "local-point-cloud"
     useVertexColors: true
     zoomable: true
-    footerText: "Meta Presentation"
     notes: "ファイル選択ダイアログが表示されます。各行が \"x,y,z,r,g,b\" 形式のテキストファイルを選択してください。"
   - type: image
     header: "4. 拡張機能"
@@ -88,7 +83,6 @@ editableSlides:
     fileInputId: "local-image"
     caption: "ローカルから画像ファイルを読み込んで表示します。画像はクリックで拡大表示できます。"
     zoomable: true
-    footerText: "Meta Presentation"
     notes: "画像ファイルを選択してください。"
 fixedSlides:
   - type: list
@@ -98,7 +92,6 @@ fixedSlides:
       - "<strong>URLハッシュ同期:</strong> スライドを移動すると、ブラウザのURLが自動的に更新されます (例: <code>#slide=3</code>)。このURLを共有すれば、誰でも同じスライドから閲覧を開始できます。"
       - "<strong>レーザーポインター:</strong> キーボードの『L』キーを押すと、仮想レーザーポインターが有効になります。発表中に特定の部分を指し示すのに便利です。"
       - "<strong>発表者ツール:</strong> 『N』キーで表示されるこのツールには、タイマー、時計、次のスライドのプレビュー機能があります。"
-    footerText: "Meta Presentation"
     notes: "URLが変更される様子と、レーザーポインター、発表者ツールのデモを行います。"
   - type: end
     title: "ご清聴ありがとうございました"
