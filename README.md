@@ -40,6 +40,12 @@ docker build -t pointcloud-slide .
 docker run --rm -p 8000:8000 pointcloud-slide
 ```
 
+変更をリアルタイムで反映させながら編集したい場合は、ホストのフォルダをコンテナにマウントします。
+
+```bash
+docker run --rm -p 8000:8000 -v $(pwd):/app pointcloud-slide
+```
+
 その後、`http://localhost:8000/index.html` をブラウザで開くとプレゼンテーションが表示されます。
 
 
