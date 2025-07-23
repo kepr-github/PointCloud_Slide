@@ -94,6 +94,31 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 
 各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。
 
+### ローカルファイルの利用
+
+`image`、`video`、`pointCloud` の各スライドでは `fileInputId` プロパティを指定することで、
+スライド表示時にローカルファイルを読み込むことができます。指定した ID は自動生成される
+`<input type="file">` 要素の ID として使用され、スライドを開くとファイル選択ダイアログが
+表示されます。
+
+```yaml
+- type: image
+  title: "ローカル画像の表示"
+  fileInputId: "local-image"
+
+- type: video
+  title: "ローカル動画の再生"
+  fileInputId: "local-video"    # videoId を省略します
+
+- type: pointCloud
+  title: "ローカル点群"
+  fileInputId: "local-point-cloud"
+```
+
+動画の場合は `videoId` を省略し、`fileInputId` のみを指定してください。点群ファイルは
+`x,y,z` もしくは `x,y,z,r,g,b` の形式で各点を1行ずつ記述したテキスト（CSV など）を読み込みます。
+ファイルを選択すると、その内容がすぐにスライドへ反映されます。
+
 ### `slides.yaml` の詳細
 
 `slides.yaml` は以下のようなトップレベル構造を持ちます。
