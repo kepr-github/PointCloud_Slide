@@ -36,7 +36,7 @@ editableSlides:
     header: "2. 基盤と美学"
     title: "HTML & CSS"
     subTitle: "構造とスタイリング"
-    text: "JavaScriptがデータに基づいて動的にスライドを生成するため、HTMLは非常にシンプルです。コードブロックはクリックで拡大できます。"
+    text: "JavaScriptがデータに基づいて動的にスライドを生成するため、HTMLは非常にシンプルです。コードブロックを表示します。"
     language: "css"
     code: |
       /* すりガラス効果 */
@@ -53,7 +53,6 @@ editableSlides:
       .slide.is-active {
         transform: translateZ(0);
       }
-    zoomable: true
     notes: "HTMLのシンプルさと、CSSによるデザインの要点を説明します。"
   - type: list
     header: "3. 動力"
@@ -66,9 +65,8 @@ editableSlides:
   - type: pointCloud
     header: "4. 拡張機能"
     title: "インタラクティブな3D点群データ"
-    caption: "three.js を利用して3Dデータを描画しています。クリックで拡大表示し、マウスでドラッグしてモデルを回転できます。"
+    caption: "three.js を利用して3Dデータを描画しています。マウスでドラッグしてモデルを回転できます。"
     points: 20000
-    zoomable: true
     notes: "three.jsとOrbitControlsを統合したデモです。球状の点群データを生成しています。"
   - type: pointCloud
     header: "4. 拡張機能"
@@ -76,21 +74,18 @@ editableSlides:
     caption: "ローカルのテキストファイル（.txt, .csv）から点群データを読み込み、色付きで表示します。"
     fileInputId: "local-point-cloud"
     useVertexColors: true
-    zoomable: true
     notes: "ファイル選択ダイアログが表示されます。各行が \"x,y,z,r,g,b\" 形式のテキストファイルを選択してください。"
   - type: image
     header: "4. 拡張機能"
     title: "ローカル画像の読み込み"
     fileInputId: "local-image"
-    caption: "ローカルから画像ファイルを読み込んで表示します。画像はクリックで拡大表示できます。"
-    zoomable: true
+    caption: "ローカルから画像ファイルを読み込んで表示します。"
     notes: "画像ファイルを選択してください。"
   - type: video
     header: "4. 拡張機能"
     title: "YouTube動画の埋め込み"
     videoId: "dQw4w9WgXcQ"
     caption: "YouTubeから動画を直接再生します。"
-    zoomable: true
     footerText: "Meta Presentation"
     notes: "オンライン動画の埋め込み例です。"
   - type: list

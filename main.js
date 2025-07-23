@@ -27,8 +27,6 @@
             const nextSlidePreviewEls = [nextSlidePreviewEl];
             const timeElapsedEls = [timeElapsedEl];
             const timeCurrentEls = [timeCurrentEl];
-            const lightboxOverlay = document.getElementById('lightbox-overlay');
-            const lightboxContent = document.getElementById('lightbox-content');
             const fileInputsContainer = document.getElementById('file-inputs');
             
             let currentSlide = 0;
@@ -102,17 +100,17 @@
                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><ol>${listItems}</ol></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'code':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre ${data.zoomable ? 'class="zoomable"' : ''}><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'image':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.zoomable ? 'class="zoomable"' : ''} ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'video':
                              let videoSrc = data.videoId ? `https://www.youtube.com/embed/${data.videoId}` : '';
                              contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${data.videoId ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!data.videoId ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${data.videoId ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'pointCloud':
-                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container ${data.zoomable ? 'zoomable' : ''}" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'end':
                             contentHTML = `<div class="end-slide"><h1>${data.title}</h1></div>`;
@@ -392,7 +390,6 @@
                     case 'n': toggleSpeakerNotes(); break;
                     case 'l': toggleLaser(); break;
                     case 'p': exportPDF(); break;
-                    case 'Escape': closeLightbox(); break;
                 }
             }
 
@@ -537,10 +534,6 @@
                     return;
                 }
 
-                const zoomTarget = event.target.closest('.zoomable');
-                if (zoomTarget) {
-                    openLightbox(zoomTarget);
-                }
             }
             function getStartSlideFromURL() {
                 const hash = window.location.hash;
@@ -551,41 +544,6 @@
                 return 0;
             }
 
-            function openLightbox(element) {
-                lightboxContent.innerHTML = '';
-                let canvas = null;
-                let slideIndex = null;
-                if (element.classList.contains('point-cloud-container')) {
-                    const origCanvas = element.querySelector('.point-cloud-canvas');
-                    canvas = document.createElement('canvas');
-                    canvas.className = 'point-cloud-canvas';
-                    // コピー元にデータ属性があれば複製する
-                    if (origCanvas) {
-                        for (const [key, value] of Object.entries(origCanvas.dataset)) {
-                            canvas.dataset[key] = value;
-                        }
-                    }
-                    lightboxContent.appendChild(canvas);
-                    slideIndex = parseInt(element.dataset.slideIndex, 10);
-                } else {
-                    const clone = element.cloneNode(true);
-                    lightboxContent.appendChild(clone);
-                    if (clone.tagName === 'PRE') {
-                        hljs.highlightElement(clone.querySelector('code'));
-                    }
-                }
-                lightboxOverlay.classList.add('is-visible');
-                if (canvas && slideIndex !== null) {
-                    requestAnimationFrame(() => {
-                        initPointCloud(canvas, slideIndex, true);
-                    });
-                }
-            }
-
-            function closeLightbox() {
-                lightboxOverlay.classList.remove('is-visible');
-                lightboxContent.innerHTML = ''; // 3Dインスタンスなどを破棄
-            }
 
             function handleKeyDown(e) {
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -606,9 +564,6 @@
                     case 'l':
                         toggleLaser();
                         break;
-                    case 'Escape':
-                        closeLightbox();
-                        break;
                 }
             }
             
@@ -627,7 +582,6 @@
                 pdfBtn.addEventListener('click', exportPDF);
                 timerResetBtn.addEventListener('click', resetTimer);
                 presentation.addEventListener('click', handlePresentationClick);
-                lightboxOverlay.addEventListener('click', closeLightbox);
                 progressBarContainer.addEventListener('mousedown', progressDragStart);
                 progressBarContainer.addEventListener('touchstart', progressDragStart);
 
@@ -648,7 +602,6 @@
                         case 'n': toggleSpeakerNotes(); break;
                         case 'l': toggleLaser(); break;
                         case 'p': exportPDF(); break;
-                        case 'Escape': closeLightbox(); break;
                     }
                 });
 
