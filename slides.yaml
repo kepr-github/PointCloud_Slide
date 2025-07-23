@@ -26,12 +26,9 @@ editableSlides:
     title: "なぜウェブ技術なのか？"
     content:
       - text: "<strong>プラットフォーム非依存:</strong> Windows, Mac, Linux, モバイルなど、環境を問わず同じ体験を提供します。"
-        fragment: true
       - text: "<strong>バージョン管理:</strong> Gitなどのツールで変更履歴を管理でき、チームでの共同作業が容易です。"
-        fragment: true
       - text: "<strong>高い表現力:</strong> CSSとJavaScriptを駆使することで、本プレゼンテーションのようなインタラクティブで動的な表現が可能です。"
-        fragment: true
-    notes: "ウェブ技術の3つの主要な利点を強調します。ここではFragment機能を使い、1項目ずつ表示させます。"
+    notes: "ウェブ技術の3つの主要な利点を強調します。"
   - type: code
     header: "2. 基盤と美学"
     title: "HTML & CSS"

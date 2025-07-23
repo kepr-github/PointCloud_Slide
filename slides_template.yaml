@@ -15,7 +15,6 @@ editableSlides:
     ordered: true  # true: 数字のリスト、false: ドットのリスト
     content:
       - text: "項目1"
-        fragment: true
       - text: "項目2"
     footerText: ""
     notes: ""
