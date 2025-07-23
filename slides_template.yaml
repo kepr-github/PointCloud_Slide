@@ -12,6 +12,7 @@ editableSlides:
   - type: list
     header: "セクション見出し"
     title: "リストスライドのタイトル"
+    ordered: true  # true: 数字のリスト、false: ドットのリスト
     content:
       - text: "項目1"
         fragment: true
