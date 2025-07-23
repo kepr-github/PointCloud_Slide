@@ -88,6 +88,11 @@ editableSlides:
     caption: "YouTubeから動画を直接再生します。"
     footerText: "Meta Presentation"
     notes: "オンライン動画の埋め込み例です。"
+  - type: quote
+    quote: "The nice thing about standards is that there are so many to choose from."
+    author: "Andrew S. Tanenbaum"
+    notes: "引用例として表示します。"
+
   - type: list
     header: "5. 高度な機能"
     title: "発表者ツール"

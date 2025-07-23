@@ -90,6 +90,7 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 | `pointCloud` | `header`, `title`, `points`, `fileInputId` | 点群データを three.js で描画します |
 | `image` | `header`, `title`, `imageSrc`, `fileInputId` | 画像の表示用スライド |
 | `video` | `header`, `title`, `videoId`, `fileInputId` | YouTube もしくはローカル動画を再生します |
+| `quote` | `quote`, `author` | 引用文を大きく表示するスライド |
 | `end` | `title` | 終了画面 |
 
 各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。
@@ -137,7 +138,7 @@ editableSlides:
 
 #### スライド共通プロパティ
 
-- **type**: スライドの種類 (`title`, `list`, `code`, `image`, `video`, `pointCloud`, `end` のいずれか)。
+ - **type**: スライドの種類 (`title`, `list`, `code`, `image`, `video`, `pointCloud`, `quote`, `end` のいずれか)。
 - **header**: 任意のセクション見出し。
 - **title**: スライドタイトル。
 - **footerText**: 個別のフッター文字列。未指定なら `defaultFooterText` が使用されます。
@@ -185,6 +186,10 @@ editableSlides:
 - `useVertexColors`: `true` のとき r,g,b を含む点群ファイルをカラー表示
 - `caption`: 点群の説明文
 - `zoomable`: 点群表示を拡大するか
+
+**quote**
+- `quote`: 表示する引用文
+- `author`: 引用元の名前
 
 **end**
 - 特別なプロパティはありません。`title` のみを指定します。

@@ -194,6 +194,26 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     border: none;
 }
+.quote-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.quote-slide blockquote {
+    font-size: 1.8em;
+    font-style: italic;
+    margin: 0 auto;
+    max-width: 80%;
+}
+.quote-slide .quote-author {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: var(--text-muted-color);
+    width: 80%;
+    text-align: right;
+}
         .point-cloud-container { flex-grow: 1; position: relative; }
         .point-cloud-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
 

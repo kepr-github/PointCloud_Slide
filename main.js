@@ -110,6 +110,9 @@
                              let videoSrc = data.videoId ? `https://www.youtube.com/embed/${data.videoId}` : '';
                              contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${data.videoId ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!data.videoId ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${data.videoId ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
+                        case 'quote':
+                             contentHTML = `<div class="quote-slide"><blockquote>${data.quote}</blockquote><p class="quote-author">${data.author || ''}</p></div>`;
+                             break;
                         case 'pointCloud':
                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;

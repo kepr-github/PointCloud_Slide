@@ -55,6 +55,11 @@ editableSlides:
     footerText: ""
     notes: ""
 
+  - type: quote
+    quote: "引用文をここに"
+    author: "引用元"
+    notes: ""
+
   - type: end
     title: "ご清聴ありがとうございました"
     notes: ""
