@@ -105,8 +105,7 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 
 - type: pointCloud
   pointCloudSrc: "data/points.txt"
-  # RGB 値が含まれるファイルでは useVertexColors: true を指定します
-  # useVertexColors: true
+  # 色付きの点群データは自動的に認識されます
 ```
 
 パスは `index.html` からの相対パスで記述してください。
@@ -224,7 +223,7 @@ editableSlides:
 - `points`: 乱数で生成する点の数（`fileInputId` がない場合に使用）
 - `fileInputId`: ローカルの点群ファイルを読み込む ID
 - `pointCloudSrc`: 点群データを含むテキストファイルのパス
-- `useVertexColors`: `true` のとき r,g,b を含む点群ファイルをカラー表示 (値は 0-1 または 0-255 を想定)
+- `useVertexColors`: `true` を指定すると強制的にカラー表示を行います。省略しても r,g,b 値があれば自動的に判定します (値は 0-1 または 0-255 を想定)
 - `caption`: 点群の説明文
 - `zoomable`: 点群表示を拡大するか
 
