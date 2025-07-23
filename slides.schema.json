@@ -88,7 +88,11 @@
             "type": { "const": "image" },
             "imageSrc": { "type": "string" },
             "caption": { "type": "string" },
-            "math": { "type": "string" }
+            "math": { "type": "string" },
+            "listContent": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/listItem" }
+            }
           }
         }
       ]
@@ -112,6 +116,7 @@
           "properties": {
             "type": { "const": "pointCloud" },
             "points": { "type": "integer" },
+            "pointCloudSrc": { "type": "string" },
             "useVertexColors": { "type": "boolean" },
             "caption": { "type": "string" }
           }

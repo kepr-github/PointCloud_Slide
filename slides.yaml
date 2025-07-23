@@ -71,12 +71,15 @@ editableSlides:
     caption: "ローカルのテキストファイル（.txt, .csv）から点群データを読み込み、色付きで表示します。"
     fileInputId: "local-point-cloud"
     useVertexColors: true
-    notes: "ファイル選択ダイアログが表示されます。各行が \"x y z r g b\" または \"x,y,z,r,g,b\" 形式のテキストファイルを選択してください。"
+    notes: "ファイル選択ダイアログが表示されます。各行が \"x y z r g b\" または \"x,y,z,r,g,b\" 形式(色値は0-1または0-255)のテキストファイルを選択してください。"
   - type: image
     header: "4. 拡張機能"
     title: "ローカル画像の読み込み"
     fileInputId: "local-image"
     caption: "ローカルから画像ファイルを読み込んで表示します。"
+    listContent:
+      - text: "画像を選択すると即座に表示"
+      - text: "複数形式に対応"
     notes: "画像ファイルを選択してください。"
   - type: video
     header: "4. 拡張機能"

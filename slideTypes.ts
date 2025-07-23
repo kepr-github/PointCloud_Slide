@@ -59,6 +59,7 @@ interface ImageSlide extends BaseSlide {
     imageSrc?: string;
     caption?: string;
     math?: string;
+    listContent?: ListItem[];
 }
 
 /** Video or local movie slide */
@@ -74,6 +75,8 @@ interface PointCloudSlide extends BaseSlide {
     type: 'pointCloud';
     /** Number of random points when no file is provided */
     points?: number;
+    /** Path to a text file containing point data */
+    pointCloudSrc?: string;
     /** Use r,g,b values included in the file */
     useVertexColors?: boolean;
     caption?: string;

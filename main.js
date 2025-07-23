@@ -104,7 +104,12 @@
                              contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'image':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             if (data.listContent && data.listContent.length) {
+                                const listItemsImg = data.listContent.map(item => `<li ${item.jumpTo ? `data-jump-to="${item.jumpTo}"` : ''} class="${item.fragment ? 'fragment' : ''}">${item.text || item}</li>`).join('');
+                                contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content two-column"><div class="column"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p></div><div class="column"><ul>${listItemsImg}</ul></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             } else {
+                                contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             }
                             break;
                         case 'video':
                              const isYouTube = !!data.videoId && !data.videoSrc;
@@ -118,7 +123,7 @@
                             contentHTML = `<div class="end-slide"><h1>${data.title}</h1></div>`;
                             break;
                     }
-                    slideHTML += `<div class="slide" data-index="${index}">${contentHTML}</div>`;
+                    slideHTML += `<div class="slide ${data.type}-slide" data-index="${index}">${contentHTML}</div>`;
                 });
 
                 presentation.innerHTML = slideHTML;
@@ -270,7 +275,13 @@
                                 if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
                                     vertices.push(parts[0], parts[1], parts[2]);
                                     if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
-                                        colors.push(parts[3], parts[4], parts[5]);
+                                        let [r, g, b] = parts.slice(3, 6);
+                                        if (r > 1 || g > 1 || b > 1) {
+                                            r /= 255;
+                                            g /= 255;
+                                            b /= 255;
+                                        }
+                                        colors.push(r, g, b);
                                     }
                                 }
                             });
@@ -383,13 +394,19 @@
                                     const colors = [];
                                     const lines = text.split('\n');
                                     lines.forEach(line => {
-                                        const parts = line.split(',').map(Number);
-                                        if (parts.length >= 3) {
-                                            vertices.push(parts[0], parts[1], parts[2]);
-                                            if (parts.length >= 6) {
-                                                colors.push(parts[3], parts[4], parts[5]);
+                                    const parts = line.trim().split(/[\s,]+/).map(Number);
+                                    if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
+                                        vertices.push(parts[0], parts[1], parts[2]);
+                                        if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
+                                            let [r, g, b] = parts.slice(3, 6);
+                                            if (r > 1 || g > 1 || b > 1) {
+                                                r /= 255;
+                                                g /= 255;
+                                                b /= 255;
                                             }
+                                            colors.push(r, g, b);
                                         }
+                                    }
                                     });
                                     slideDataEntry.pointData = { vertices, colors };
                                     initPointCloud(slide.querySelector('.point-cloud-canvas'), index);
