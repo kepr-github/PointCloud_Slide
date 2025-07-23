@@ -477,8 +477,15 @@
                 let canvas = null;
                 let slideIndex = null;
                 if (element.classList.contains('point-cloud-container')) {
+                    const origCanvas = element.querySelector('.point-cloud-canvas');
                     canvas = document.createElement('canvas');
                     canvas.className = 'point-cloud-canvas';
+                    // コピー元にデータ属性があれば複製する
+                    if (origCanvas) {
+                        for (const [key, value] of Object.entries(origCanvas.dataset)) {
+                            canvas.dataset[key] = value;
+                        }
+                    }
                     lightboxContent.appendChild(canvas);
                     slideIndex = parseInt(element.dataset.slideIndex, 10);
                 } else {
