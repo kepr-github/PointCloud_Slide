@@ -46,6 +46,10 @@ editableSlides:
     title: "画像スライド"
     imageSrc: "path/to/image.png"
     caption: "画像の説明"
+    # 箇条書きを併記したい場合は listContent を指定します
+    listContent:
+      - text: "ポイント1"
+      - text: "ポイント2"
     footerText: ""
     notes: ""
 
