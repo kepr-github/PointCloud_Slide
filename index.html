@@ -260,6 +260,20 @@
             let timerInterval;
             let threeJSInstances = {};
 
+            function updatePresentationSize() {
+                const wrapper = document.getElementById('presentation-wrapper');
+                const maxWidth = window.innerWidth * 0.9;
+                const maxHeight = window.innerHeight * 0.9;
+                let width = maxWidth;
+                let height = width * 9 / 16;
+                if (height > maxHeight) {
+                    height = maxHeight;
+                    width = height * 16 / 9;
+                }
+                wrapper.style.width = `${width}px`;
+                wrapper.style.height = `${height}px`;
+            }
+
             function generateSlides() {
                 totalSlides = slideData.length;
                 let slideHTML = '';
@@ -589,6 +603,7 @@
             function init() {
                 generateSlides();
                 setupFileInputs();
+                updatePresentationSize();
                 
                 nextBtn.addEventListener('click', next);
                 prevBtn.addEventListener('click', prev);
@@ -625,6 +640,7 @@
                 });
 
                 window.addEventListener('resize', () => {
+                    updatePresentationSize();
                     Object.values(threeJSInstances).forEach(instance => {
                         if (instance && instance.camera && instance.renderer && instance.canvas) {
                             const { camera, renderer, canvas } = instance;
