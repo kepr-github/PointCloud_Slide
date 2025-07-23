@@ -92,7 +92,12 @@
             text-align: left;
             width: 100%;
         }
-        .slide-content ol { text-align: left; }
+        .slide-content ol {
+            text-align: left;
+            margin: 0;
+            padding-left: 1.2em;
+            list-style-position: inside;
+        }
         .slide-content ol li { cursor: pointer; transition: color 0.3s; }
         .slide-content ol li:hover { color: var(--primary-color); }
 
