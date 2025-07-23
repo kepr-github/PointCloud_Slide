@@ -10,6 +10,7 @@
             const closeNotesBtn = document.getElementById('close-notes-btn');
             const pageNumberEl = document.getElementById('page-number');
             const progressBar = document.getElementById('progress-bar');
+            const progressBarContainer = document.getElementById('progress-bar-container');
             const notesWindow = document.getElementById('speaker-notes-window');
             const notesContent = document.getElementById('notes-content');
             const laserPointer = document.getElementById('laser-pointer');
@@ -35,6 +36,7 @@
             let startTime = new Date();
             let timerInterval;
             let threeJSInstances = {};
+            let isDraggingProgress = false;
 
             function updatePresentationSize() {
                 const wrapper = document.getElementById('presentation-wrapper');
@@ -367,7 +369,40 @@
                     openExternalSpeakerNotes();
                 }
             }
-            function toggleTheme() { 
+
+            function updateSlideFromProgressEvent(e) {
+                const rect = progressBarContainer.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                let ratio = (clientX - rect.left) / rect.width;
+                ratio = Math.max(0, Math.min(1, ratio));
+                const newIndex = Math.round(ratio * (totalSlides - 1));
+                showSlide(newIndex);
+            }
+
+            function progressDragStart(e) {
+                isDraggingProgress = true;
+                updateSlideFromProgressEvent(e);
+                document.addEventListener('mousemove', progressDragMove);
+                document.addEventListener('touchmove', progressDragMove);
+                document.addEventListener('mouseup', progressDragEnd);
+                document.addEventListener('touchend', progressDragEnd);
+            }
+
+            function progressDragMove(e) {
+                if (!isDraggingProgress) return;
+                updateSlideFromProgressEvent(e);
+            }
+
+            function progressDragEnd(e) {
+                if (!isDraggingProgress) return;
+                isDraggingProgress = false;
+                updateSlideFromProgressEvent(e);
+                document.removeEventListener('mousemove', progressDragMove);
+                document.removeEventListener('touchmove', progressDragMove);
+                document.removeEventListener('mouseup', progressDragEnd);
+                document.removeEventListener('touchend', progressDragEnd);
+            }
+            function toggleTheme() {
                 document.body.classList.toggle('theme-academic');
                 const isAcademic = document.body.classList.contains('theme-academic');
                 document.getElementById('hljs-theme-dark').disabled = isAcademic;
@@ -443,6 +478,8 @@
                 laserBtn.addEventListener('click', toggleLaser);
                 presentation.addEventListener('click', handlePresentationClick);
                 lightboxOverlay.addEventListener('click', closeLightbox);
+                progressBarContainer.addEventListener('mousedown', progressDragStart);
+                progressBarContainer.addEventListener('touchstart', progressDragStart);
 
                 document.addEventListener('keydown', (e) => {
                     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
