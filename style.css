@@ -141,16 +141,26 @@
         .title-slide h1 { font-size: 3.2em; border: none; }
         .title-slide .author { font-size: 1.5em; color: var(--text-color); margin-top: 24px; }
         .title-slide .date { font-size: 1.2em; color: var(--text-muted-color); margin-top: 12px; }
-.three-column { display: flex; gap: 30px; width: 100%; height: 100%; }
+.three-column {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 100%;
+    height: 100%;
+    align-self: center;
+}
 .column { flex: 1; overflow: hidden; }
 .column h3 { font-size: 1.3em; }
 .column p { font-size: 1.3em; }
 .three-column .column:last-child {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .three-column .column:last-child pre {
-    margin: 0;
+    margin: 0 auto;
+    width: fit-content;
+    text-align: left;
 }
         .end-slide { justify-content: center; align-items: flex-start; text-align: left; }
         .end-slide h1 { color: #fff; border: none; }
