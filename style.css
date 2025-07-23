@@ -82,8 +82,8 @@
         ul, ol { padding-left: 30px; margin-top: 0; }
         .slide-content {
             flex-grow: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
+            /* allow content to overflow rather than showing a scrollbar */
+            overflow: visible;
             min-height: 0;
             display: flex;
             flex-direction: column;
