@@ -15,8 +15,9 @@
             const notesContent = document.getElementById('notes-content');
             const laserPointer = document.getElementById('laser-pointer');
             const timeElapsedEl = document.getElementById('timer-elapsed');
-            const timeCurrentEl = document.getElementById('timer-current');
-            const nextSlidePreviewEl = document.getElementById('next-slide-preview');
+           const timeCurrentEl = document.getElementById('timer-current');
+           const nextSlidePreviewEl = document.getElementById('next-slide-preview');
+            const timerResetBtn = document.getElementById('timer-reset-btn');
 
             // Elements for optional external speaker notes window
             let externalNotesWindow = null;
@@ -213,6 +214,11 @@
                     timeCurrentEls.forEach(el => { el.textContent = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }); });
                 }, 1000);
             }
+
+            function resetTimer() {
+                startTime = new Date();
+                timeElapsedEls.forEach(el => { el.textContent = '00:00'; });
+            }
             
             function initPointCloud(canvas, slideIndex, isModal = false) {
                 if (!isModal && threeJSInstances[slideIndex]) return;
@@ -342,9 +348,11 @@
 
                 const extNotesContent = externalNotesWindow.document.getElementById('notes-content');
                 const extNextPreview = externalNotesWindow.document.getElementById('next-slide-preview');
-                const extElapsed = externalNotesWindow.document.getElementById('timer-elapsed');
-                const extCurrent = externalNotesWindow.document.getElementById('timer-current');
+               const extElapsed = externalNotesWindow.document.getElementById('timer-elapsed');
+               const extCurrent = externalNotesWindow.document.getElementById('timer-current');
+                const extReset = externalNotesWindow.document.getElementById('timer-reset-btn');
                 externalNotesWindow.document.getElementById('close-notes-btn').addEventListener('click', toggleSpeakerNotes);
+                if (extReset) extReset.addEventListener('click', resetTimer);
 
                 notesContentEls.push(extNotesContent);
                 nextSlidePreviewEls.push(extNextPreview);
@@ -476,6 +484,7 @@
                 fullscreenBtn.addEventListener('click', toggleFullscreen);
                 themeBtn.addEventListener('click', toggleTheme);
                 laserBtn.addEventListener('click', toggleLaser);
+                timerResetBtn.addEventListener('click', resetTimer);
                 presentation.addEventListener('click', handlePresentationClick);
                 lightboxOverlay.addEventListener('click', closeLightbox);
                 progressBarContainer.addEventListener('mousedown', progressDragStart);
