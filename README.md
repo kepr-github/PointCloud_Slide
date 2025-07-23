@@ -76,10 +76,10 @@ editableSlides:
 |------|----------------|------|
 | `title` | `title`, `author`, `date`, `notes` | タイトルスライド |
 | `list` | `header`, `title`, `content`, `footerText` | 箇条書きのスライド。`content` 配下に `text` などを記入します |
-| `code` | `header`, `title`, `language`, `code`, `zoomable` | ソースコードを表示します |
-| `pointCloud` | `header`, `title`, `points`, `fileInputId`, `zoomable` | 点群データを three.js で描画します |
-| `image` | `header`, `title`, `imageSrc`, `fileInputId`, `zoomable` | 画像の表示用スライド |
-| `video` | `header`, `title`, `videoId`, `fileInputId`, `zoomable` | YouTube もしくはローカル動画を再生します |
+| `code` | `header`, `title`, `language`, `code` | ソースコードを表示します |
+| `pointCloud` | `header`, `title`, `points`, `fileInputId` | 点群データを three.js で描画します |
+| `image` | `header`, `title`, `imageSrc`, `fileInputId` | 画像の表示用スライド |
+| `video` | `header`, `title`, `videoId`, `fileInputId` | YouTube もしくはローカル動画を再生します |
 | `end` | `title` | 終了画面 |
 
 各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。

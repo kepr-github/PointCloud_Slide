@@ -27,7 +27,6 @@ editableSlides:
     language: "python"
     code: |
       print("Hello World")
-    zoomable: true
     footerText: ""
     notes: ""
 
@@ -36,7 +35,6 @@ editableSlides:
     title: "点群データの例"
     caption: "点群の説明"
     points: 20000
-    zoomable: true
     footerText: ""
     notes: ""
 
@@ -45,7 +43,6 @@ editableSlides:
     title: "画像スライド"
     imageSrc: "path/to/image.png"
     caption: "画像の説明"
-    zoomable: true
     footerText: ""
     notes: ""
 
@@ -54,7 +51,6 @@ editableSlides:
     title: "動画スライド"
     videoId: "YouTubeのID"
     caption: "動画の説明"
-    zoomable: true
     footerText: ""
     notes: ""
 
