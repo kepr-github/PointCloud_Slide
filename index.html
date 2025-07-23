@@ -61,7 +61,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             transition: background-color 0.5s, color 0.5s;
         }
 
@@ -89,7 +90,7 @@
         @keyframes move-aurora-2 { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(-300px, -150px) rotate(-120deg); } }
 
         /* --- プレゼンテーションコンテナ --- */
-        #presentation-wrapper { width: 90vw; height: calc(90vw * 9 / 16); max-width: 1280px; max-height: 720px; position: relative; z-index: 1; perspective: 1500px; cursor: none; }
+        #presentation-wrapper { width: 90vw; height: min(calc(90vw * 9 / 16), calc(100vh - 180px)); max-width: 1280px; max-height: calc(100vh - 180px); position: relative; z-index: 1; perspective: 1500px; cursor: none; }
         #presentation { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
 
         /* --- 各スライドの基本スタイル (深度スライド) --- */
@@ -391,9 +392,16 @@
                 
                 if (currentSlide < totalSlides - 1) {
                     const nextSlideNode = slides[currentSlide + 1].cloneNode(true);
+                    nextSlideNode.classList.remove('is-active', 'is-exiting');
+                    nextSlideNode.style.opacity = '1';
+                    nextSlideNode.style.transform = 'none';
+                    nextSlideNode.style.position = 'relative';
+                    nextSlideNode.style.pointerEvents = 'none';
+                    nextSlideNode.querySelectorAll('.fragment').forEach(f => f.classList.add('is-visible'));
+
                     nextSlidePreviewEl.innerHTML = '';
                     nextSlidePreviewEl.appendChild(nextSlideNode);
-                    
+
                     const previewRect = nextSlidePreviewEl.getBoundingClientRect();
                     const slideRect = nextSlideNode.getBoundingClientRect();
                     const scale = Math.min(previewRect.width / slideRect.width, previewRect.height / slideRect.height);
