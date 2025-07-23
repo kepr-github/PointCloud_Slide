@@ -6,6 +6,7 @@
 
 - Python 3（簡易サーバーを起動するために使用します）
 - 最新のウェブブラウザ（Google Chrome、Firefox など）
+- Docker（Python環境を用意しなくても実行できます）
 
 ## プレゼンを表示する手順
 
@@ -28,6 +29,18 @@
 3. ブラウザが自動で開かない場合は、`http://localhost:8000/index.html` にアクセスするとプレゼンテーションが表示されます。
 
 > **補足:** `index.html` から `slides.yaml` を取得する際、ブラウザのセキュリティ制限によりファイルを直接開く（`file:///`）だけでは動作しません。必ず上記のようにローカルサーバーを起動してください。
+
+## Docker で実行する
+
+Docker を利用してサーバーを起動することもできます。以下のコマンドを順に実行してください。
+
+```bash
+docker build -t pointcloud-slide .
+docker run --rm -p 8000:8000 pointcloud-slide
+```
+
+その後、`http://localhost:8000/index.html` をブラウザで開くとプレゼンテーションが表示されます。
+
 
 ## スライド内容の変更方法
 
