@@ -501,6 +501,12 @@
                 progressBarContainer.addEventListener('mousedown', progressDragStart);
                 progressBarContainer.addEventListener('touchstart', progressDragStart);
 
+                // フルスクリーン状態の変更時にもサイズを再計算する
+                document.addEventListener('fullscreenchange', () => {
+                    updatePresentationSize();
+                    updateSpeakerNotes();
+                });
+
                 document.addEventListener('keydown', (e) => {
                     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
                     switch(e.key) {
