@@ -493,7 +493,10 @@
                     if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
                         await MathJax.typesetPromise();
                     }
-                    const canvas = await html2canvas(slides[i]);
+                    const canvas = await html2canvas(slides[i], {
+                        useCORS: true,
+                        backgroundColor: null
+                    });
                     const img = canvas.toDataURL('image/png');
                     if (i > 0) pdf.addPage();
                     pdf.addImage(img, 'PNG', 0, 0, width, height);
