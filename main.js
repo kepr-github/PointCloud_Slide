@@ -688,7 +688,9 @@
                 startTimers();
             }
 
-                fetch("slides.yaml")
+                const params = new URLSearchParams(window.location.search);
+                const yamlFile = params.get('yaml') || params.get('slides') || 'slides.yaml';
+                fetch(yamlFile)
                     .then(res => res.text())
                     .then(text => {
                         const yamlData = jsyaml.load(text);
@@ -700,7 +702,7 @@
                         init();
                     })
                     .catch(err => {
-                        console.error("failed to load slides.yaml", err);
+                        console.error(`failed to load ${yamlFile}`, err);
                         init();
                     });
         });
