@@ -42,40 +42,40 @@
             let lastPresentationWidth = 0;
             let lastPresentationHeight = 0;
             let lastRootFontSize = 0;
+            let lastScale = 1;
 
             function updatePresentationSize() {
                 const wrapper = document.getElementById('presentation-wrapper');
+                const presentation = document.getElementById('presentation');
 
                 if (document.fullscreenElement && lastPresentationWidth && lastPresentationHeight && lastRootFontSize) {
                     wrapper.style.width = `${lastPresentationWidth}px`;
                     wrapper.style.height = `${lastPresentationHeight}px`;
+                    presentation.style.setProperty('--presentation-scale', lastScale);
                     document.documentElement.style.fontSize = `${lastRootFontSize}px`;
                     return;
                 }
 
+                const baseWidth = 1280;
+                const baseHeight = 720;
                 const maxWidth = window.innerWidth * 0.9;
                 const maxHeight = window.innerHeight * 0.9;
-                let width = maxWidth;
-                let height = width * 9 / 16;
-                if (height > maxHeight) {
-                    height = maxHeight;
-                    width = height * 16 / 9;
-                }
+                const scale = Math.min(maxWidth / baseWidth, maxHeight / baseHeight);
+
+                const width = baseWidth * scale;
+                const height = baseHeight * scale;
                 wrapper.style.width = `${width}px`;
                 wrapper.style.height = `${height}px`;
+                presentation.style.setProperty('--presentation-scale', scale);
 
-                // Scale base font size relative to the presentation width so
-                // that text scales proportionally with the window size.
-                const baseWidth = 1280; // design width used for styling
-                const scale = width / baseWidth;
                 const fontScale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-scale')) || 1;
-                // Slightly larger base font size for improved readability
                 const fontSize = 18 * scale * fontScale;
                 document.documentElement.style.fontSize = `${fontSize}px`;
 
                 lastPresentationWidth = width;
                 lastPresentationHeight = height;
                 lastRootFontSize = fontSize;
+                lastScale = scale;
             }
 
             function generateSlides() {
