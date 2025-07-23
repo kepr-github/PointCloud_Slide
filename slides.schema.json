@@ -88,7 +88,11 @@
             "type": { "const": "image" },
             "imageSrc": { "type": "string" },
             "caption": { "type": "string" },
-            "math": { "type": "string" }
+            "math": { "type": "string" },
+            "listContent": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/listItem" }
+            }
           }
         }
       ]

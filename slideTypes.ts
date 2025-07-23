@@ -59,6 +59,7 @@ interface ImageSlide extends BaseSlide {
     imageSrc?: string;
     caption?: string;
     math?: string;
+    listContent?: ListItem[];
 }
 
 /** Video or local movie slide */

@@ -104,7 +104,12 @@
                              contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'image':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             if (data.listContent && data.listContent.length) {
+                                const listItemsImg = data.listContent.map(item => `<li ${item.jumpTo ? `data-jump-to="${item.jumpTo}"` : ''} class="${item.fragment ? 'fragment' : ''}">${item.text || item}</li>`).join('');
+                                contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content two-column"><div class="column"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p></div><div class="column"><ul>${listItemsImg}</ul></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             } else {
+                                contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             }
                             break;
                         case 'video':
                              const isYouTube = !!data.videoId && !data.videoSrc;
@@ -118,7 +123,7 @@
                             contentHTML = `<div class="end-slide"><h1>${data.title}</h1></div>`;
                             break;
                     }
-                    slideHTML += `<div class="slide" data-index="${index}">${contentHTML}</div>`;
+                    slideHTML += `<div class="slide ${data.type}-slide" data-index="${index}">${contentHTML}</div>`;
                 });
 
                 presentation.innerHTML = slideHTML;

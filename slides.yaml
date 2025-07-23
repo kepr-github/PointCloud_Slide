@@ -77,6 +77,9 @@ editableSlides:
     title: "ローカル画像の読み込み"
     fileInputId: "local-image"
     caption: "ローカルから画像ファイルを読み込んで表示します。"
+    listContent:
+      - text: "画像を選択すると即座に表示"
+      - text: "複数形式に対応"
     notes: "画像ファイルを選択してください。"
   - type: video
     header: "4. 拡張機能"
