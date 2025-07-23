@@ -84,6 +84,14 @@ editableSlides:
     caption: "ローカルから画像ファイルを読み込んで表示します。画像はクリックで拡大表示できます。"
     zoomable: true
     notes: "画像ファイルを選択してください。"
+  - type: video
+    header: "4. 拡張機能"
+    title: "YouTube動画の埋め込み"
+    videoId: "dQw4w9WgXcQ"
+    caption: "YouTubeから動画を直接再生します。"
+    zoomable: true
+    footerText: "Meta Presentation"
+    notes: "オンライン動画の埋め込み例です。"
 fixedSlides:
   - type: list
     header: "5. 高度な機能"
