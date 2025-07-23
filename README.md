@@ -84,6 +84,74 @@ editableSlides:
 
 各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。
 
+### `slides.yaml` の詳細
+
+`slides.yaml` は以下のようなトップレベル構造を持ちます。
+
+```yaml
+defaultFooterText: "発表者名"
+fontScale: 1.25
+editableSlides:
+  - type: title
+    # 以降に各スライドを記述
+```
+
+- **defaultFooterText**: 各スライドの `footerText` が省略されたときに表示する共通のフッター文字列。
+- **fontScale**: 1 を基準とした文字サイズの倍率。数値を大きくすると全体の文字が大きくなります。
+- **editableSlides**: スライドオブジェクトの配列。順番に表示されます。
+
+#### スライド共通プロパティ
+
+- **type**: スライドの種類 (`title`, `list`, `code`, `image`, `video`, `pointCloud`, `end` のいずれか)。
+- **header**: 任意のセクション見出し。
+- **title**: スライドタイトル。
+- **footerText**: 個別のフッター文字列。未指定なら `defaultFooterText` が使用されます。
+- **notes**: 発表者用ノート。`Notes` ボタンで確認できます。
+- **fileInputId**: ローカルファイルを読み込むスライドで使用する入力要素の ID。
+- **zoomable**: 画像やコード等をクリックで拡大表示する場合に `true` を指定。
+
+#### タイプ別の追加プロパティ
+
+**title**
+- `author`: 発表者名
+- `date`: 日付
+
+**list**
+- `content`: リスト項目の配列。要素は文字列、または以下を含むオブジェクトを指定できます。
+  - `text`: 表示する文字列
+  - `fragment`: `true` にすると項目を順に表示
+  - `jumpTo`: クリックしたときに移動するスライド番号
+
+**code**
+- `subTitle`: コードに付随する小見出し
+- `text`: 説明文
+- `language`: シンタックスハイライト用の言語名
+- `code`: 表示するソースコード
+- `zoomable`: コードブロックを拡大可能にするか
+
+**image**
+- `imageSrc`: 画像ファイルのパス
+- `caption`: 画像の説明文
+- `math`: 数式を表示したい場合に使用
+- `fileInputId`: ローカル画像を読み込むための ID
+- `zoomable`: 画像を拡大表示するか
+
+**video**
+- `videoId`: YouTube の動画 ID
+- `fileInputId`: ローカル動画を読み込むための ID
+- `caption`: 動画の説明文
+- `zoomable`: 動画を拡大表示するか
+
+**pointCloud**
+- `points`: 乱数で生成する点の数（`fileInputId` がない場合に使用）
+- `fileInputId`: ローカルの点群ファイルを読み込む ID
+- `useVertexColors`: `true` のとき r,g,b を含む点群ファイルをカラー表示
+- `caption`: 点群の説明文
+- `zoomable`: 点群表示を拡大するか
+
+**end**
+- 特別なプロパティはありません。`title` のみを指定します。
+
 変更を保存したら、ブラウザをリロードすることで更新後のスライドを確認できます。
 
 ## フォントサイズの調整
