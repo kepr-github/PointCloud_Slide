@@ -303,7 +303,19 @@
                 const points = new THREE.Points(geometry, material);
                 scene.add(points);
 
-                camera.position.z = 1.5;
+                // 自動的に全体が画面に収まるようカメラ位置を調整
+                geometry.computeBoundingSphere();
+                const bsphere = geometry.boundingSphere;
+                if (bsphere) {
+                    const fov = camera.fov * Math.PI / 180;
+                    const distance = (bsphere.radius / Math.sin(fov / 2)) * 1.1;
+                    camera.position.set(bsphere.center.x, bsphere.center.y, bsphere.center.z + distance);
+                    camera.near = distance / 100;
+                    camera.far = distance * 100;
+                    camera.updateProjectionMatrix();
+                    controls.target.copy(bsphere.center);
+                    controls.update();
+                }
 
                 let animationId;
                 function animate() {
