@@ -8,9 +8,19 @@ import socket
 import socketserver
 import webbrowser
 from contextlib import suppress
+from typing import IO
+import shutil
 
 
-RequestHandler = http.server.SimpleHTTPRequestHandler
+class RequestHandler(http.server.SimpleHTTPRequestHandler):
+    """Custom request handler that ignores broken pipe errors."""
+
+    def copyfile(self, source: IO[bytes], outputfile: IO[bytes]) -> None:
+        try:
+            shutil.copyfileobj(source, outputfile)
+        except BrokenPipeError:
+            # Client disconnected before the response completed.
+            pass
 
 
 def find_free_port(start_port: int) -> int:
