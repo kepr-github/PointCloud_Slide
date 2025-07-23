@@ -11,6 +11,7 @@
             const pageNumberEl = document.getElementById('page-number');
             const progressBar = document.getElementById('progress-bar');
             const progressBarContainer = document.getElementById('progress-bar-container');
+            const progressHandle = document.getElementById('progress-handle');
             const notesWindow = document.getElementById('speaker-notes-window');
             const notesContent = document.getElementById('notes-content');
             const laserPointer = document.getElementById('laser-pointer');
@@ -181,6 +182,9 @@
                 pageInfoEls.forEach(el => { el.textContent = `Page ${currentSlide + 1}`; });
                 const progressPercentage = totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 0;
                 progressBar.style.width = `${progressPercentage}%`;
+                if (progressHandle) {
+                    progressHandle.style.left = `${progressPercentage}%`;
+                }
                 prevBtn.disabled = (currentSlide === 0 && currentFragment === -1);
                 nextBtn.disabled = (currentSlide === totalSlides - 1 && currentFragment === slides[currentSlide].querySelectorAll('.fragment').length - 1);
                 updateSpeakerNotes();
