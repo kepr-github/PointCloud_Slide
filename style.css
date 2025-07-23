@@ -47,6 +47,34 @@
         }
         body.theme-academic .hljs { background: #f3f4f6; color: #383a42; }
 
+        /* --- Forest Theme --- */
+        body.theme-forest {
+            --primary-color: #2c7a7b;
+            --secondary-color: #2f855a;
+            --accent-color: #68d391;
+            --background-color: #1b1e1d;
+            --surface-color: rgba(34, 45, 34, 0.6);
+            --text-color: #e0f2f1;
+            --text-muted-color: #a0aec0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --aurora-opacity: 0.2;
+            --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        /* --- Ocean Theme --- */
+        body.theme-ocean {
+            --primary-color: #0077b6;
+            --secondary-color: #00b4d8;
+            --accent-color: #90e0ef;
+            --background-color: #03045e;
+            --surface-color: rgba(3, 4, 94, 0.6);
+            --text-color: #caf0f8;
+            --text-muted-color: #8ecae6;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --aurora-opacity: 0.25;
+            --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
         /* --- オーロラ風アニメーション背景 --- */
         #aurora-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; transition: opacity 0.8s; }
         #aurora-background { opacity: var(--aurora-opacity); }
