@@ -38,6 +38,8 @@ editableSlides:
     points: 20000
     # または pointCloudSrc に点群ファイルのパスを指定できます
     # pointCloudSrc: "data/points.txt"
+    # r,g,b カラー値を使う場合は useVertexColors: true を指定します
+    # useVertexColors: true
     footerText: ""
     notes: ""
 

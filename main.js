@@ -275,7 +275,13 @@
                                 if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
                                     vertices.push(parts[0], parts[1], parts[2]);
                                     if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
-                                        colors.push(parts[3], parts[4], parts[5]);
+                                        let [r, g, b] = parts.slice(3, 6);
+                                        if (r > 1 || g > 1 || b > 1) {
+                                            r /= 255;
+                                            g /= 255;
+                                            b /= 255;
+                                        }
+                                        colors.push(r, g, b);
                                     }
                                 }
                             });
@@ -388,13 +394,19 @@
                                     const colors = [];
                                     const lines = text.split('\n');
                                     lines.forEach(line => {
-                                        const parts = line.split(',').map(Number);
-                                        if (parts.length >= 3) {
-                                            vertices.push(parts[0], parts[1], parts[2]);
-                                            if (parts.length >= 6) {
-                                                colors.push(parts[3], parts[4], parts[5]);
+                                    const parts = line.trim().split(/[\s,]+/).map(Number);
+                                    if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
+                                        vertices.push(parts[0], parts[1], parts[2]);
+                                        if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
+                                            let [r, g, b] = parts.slice(3, 6);
+                                            if (r > 1 || g > 1 || b > 1) {
+                                                r /= 255;
+                                                g /= 255;
+                                                b /= 255;
                                             }
+                                            colors.push(r, g, b);
                                         }
+                                    }
                                     });
                                     slideDataEntry.pointData = { vertices, colors };
                                     initPointCloud(slide.querySelector('.point-cloud-canvas'), index);
