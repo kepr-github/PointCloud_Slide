@@ -107,11 +107,12 @@
                              contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'video':
-                             let videoSrc = data.videoId ? `https://www.youtube.com/embed/${data.videoId}` : '';
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${data.videoId ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!data.videoId ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${data.videoId ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                             const isYouTube = !!data.videoId && !data.videoSrc;
+                             let videoSrc = data.videoSrc || (isYouTube ? `https://www.youtube.com/embed/${data.videoId}` : '');
+                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${isYouTube ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!isYouTube ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${isYouTube ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'pointCloud':
-                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${data.pointCloudSrc ? `data-src="${data.pointCloudSrc}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
                             break;
                         case 'end':
                             contentHTML = `<div class="end-slide"><h1>${data.title}</h1></div>`;
@@ -254,8 +255,31 @@
                 timeElapsedEls.forEach(el => { el.textContent = '00:00'; });
             }
             
-            function initPointCloud(canvas, slideIndex, isModal = false) {
+           function initPointCloud(canvas, slideIndex, isModal = false) {
                 if (!isModal && threeJSInstances[slideIndex]) return;
+
+                const src = canvas.dataset.src;
+                if (src && !slideData[slideIndex].pointData) {
+                    fetch(src)
+                        .then(res => res.text())
+                        .then(text => {
+                            const vertices = [];
+                            const colors = [];
+                            text.split('\n').forEach(line => {
+                                const parts = line.split(',').map(Number);
+                                if (parts.length >= 3) {
+                                    vertices.push(parts[0], parts[1], parts[2]);
+                                    if (parts.length >= 6) {
+                                        colors.push(parts[3], parts[4], parts[5]);
+                                    }
+                                }
+                            });
+                            slideData[slideIndex].pointData = { vertices, colors };
+                            initPointCloud(canvas, slideIndex, isModal);
+                        })
+                        .catch(err => console.error(`failed to load ${src}`, err));
+                    return;
+                }
 
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);

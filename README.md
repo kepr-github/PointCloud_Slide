@@ -76,6 +76,28 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 
 パラメータを省略した場合は既定の `slides.yaml` が読み込まれます。
 
+### `data/` ディレクトリにメディアを置く
+
+リポジトリ直下に `data/` ディレクトリを作成しておくと、画像・動画・点群などの
+メディアファイルを配置できます。`data/` は `.gitignore` により Git の管理対象外
+となるため、大きなファイルを気にせず保存できます。
+
+スライドからこれらのファイルを参照する場合は、各スライドで次のプロパティを指定
+します。
+
+```yaml
+- type: image
+  imageSrc: "data/example.png"
+
+- type: video
+  videoSrc: "data/movie.mp4"
+
+- type: pointCloud
+  pointCloudSrc: "data/points.txt"
+```
+
+パスは `index.html` からの相対パスで記述してください。
+
 ## スライドテンプレートの利用方法
 
 本リポジトリには `slides_template.yaml` を同梱しています。新しいプレゼンテーションを作成する際はこのファイルをコピーし、内容を編集して `slides.yaml` として保存してください。
@@ -87,9 +109,9 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 | `title` | `title`, `author`, `date`, `notes` | タイトルスライド |
 | `list` | `header`, `title`, `content`, `footerText` | 箇条書きのスライド。`content` 配下に `text` などを記入します |
 | `code` | `header`, `title`, `language`, `code` | ソースコードを表示します |
-| `pointCloud` | `header`, `title`, `points`, `fileInputId` | 点群データを three.js で描画します |
+| `pointCloud` | `header`, `title`, `points`, `pointCloudSrc`, `fileInputId` | 点群データを three.js で描画します |
 | `image` | `header`, `title`, `imageSrc`, `fileInputId` | 画像の表示用スライド |
-| `video` | `header`, `title`, `videoId`, `fileInputId` | YouTube もしくはローカル動画を再生します |
+| `video` | `header`, `title`, `videoId`, `videoSrc`, `fileInputId` | YouTube もしくはローカル動画を再生します |
 | `end` | `title` | 終了画面 |
 
 各型のプロパティは必要に応じて追加できます。詳しくは `slides_template.yaml` のコメントを参考にしてください。
