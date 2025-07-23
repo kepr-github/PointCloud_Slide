@@ -1,4 +1,5 @@
 defaultFooterText: "keishu"
+fontScale: 1.25
 editableSlides:
   - type: title
     title: "Deconstructing a Web-Based Presentation"

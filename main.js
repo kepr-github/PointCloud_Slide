@@ -614,6 +614,9 @@
                     .then(text => {
                         const yamlData = jsyaml.load(text);
                         defaultFooterText = yamlData.defaultFooterText || '';
+                        if (yamlData.fontScale) {
+                            document.documentElement.style.setProperty('--font-scale', yamlData.fontScale);
+                        }
                         slideData = [...(yamlData.editableSlides || [])];
                         init();
                     })
