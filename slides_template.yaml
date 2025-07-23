@@ -1,0 +1,62 @@
+# スライド定義用テンプレート
+# 必要に応じて各プロパティを編集してください
+editableSlides:
+  - type: title
+    title: "タイトルを入力"
+    author: "発表者名"
+    date: "日付"
+    notes: "必要に応じて発表者ノートを書きます"
+
+  - type: list
+    header: "セクション見出し"
+    title: "リストスライドのタイトル"
+    content:
+      - text: "項目1"
+        fragment: true
+      - text: "項目2"
+    footerText: ""
+    notes: ""
+
+  - type: code
+    header: "セクション見出し"
+    title: "コード例"
+    subTitle: "説明"
+    text: "コードの説明文"
+    language: "python"
+    code: |
+      print("Hello World")
+    zoomable: true
+    footerText: ""
+    notes: ""
+
+  - type: pointCloud
+    header: "セクション見出し"
+    title: "点群データの例"
+    caption: "点群の説明"
+    points: 20000
+    zoomable: true
+    footerText: ""
+    notes: ""
+
+  - type: image
+    header: "セクション見出し"
+    title: "画像スライド"
+    imageSrc: "path/to/image.png"
+    caption: "画像の説明"
+    zoomable: true
+    footerText: ""
+    notes: ""
+
+  - type: video
+    header: "セクション見出し"
+    title: "動画スライド"
+    videoId: "YouTubeのID"
+    caption: "動画の説明"
+    zoomable: true
+    footerText: ""
+    notes: ""
+
+fixedSlides:
+  - type: end
+    title: "ご清聴ありがとうございました"
+    notes: ""
