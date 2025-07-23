@@ -56,7 +56,8 @@
                 // that text scales proportionally with the window size.
                 const baseWidth = 1280; // design width used for styling
                 const scale = width / baseWidth;
-                const fontSize = 16 * scale;
+                const fontScale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-scale')) || 1;
+                const fontSize = 16 * scale * fontScale;
                 document.documentElement.style.fontSize = `${fontSize}px`;
             }
 
