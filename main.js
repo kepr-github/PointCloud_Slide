@@ -354,21 +354,27 @@
             }
 
             function openLightbox(element) {
+                lightboxContent.innerHTML = '';
+                let canvas = null;
+                let slideIndex = null;
                 if (element.classList.contains('point-cloud-container')) {
-                    const canvas = document.createElement('canvas');
+                    canvas = document.createElement('canvas');
                     canvas.className = 'point-cloud-canvas';
-                    lightboxContent.innerHTML = '';
                     lightboxContent.appendChild(canvas);
-                    initPointCloud(canvas, element.dataset.slideIndex, true);
+                    slideIndex = parseInt(element.dataset.slideIndex, 10);
                 } else {
                     const clone = element.cloneNode(true);
-                    lightboxContent.innerHTML = '';
                     lightboxContent.appendChild(clone);
                     if (clone.tagName === 'PRE') {
                         hljs.highlightElement(clone.querySelector('code'));
                     }
                 }
                 lightboxOverlay.classList.add('is-visible');
+                if (canvas && slideIndex !== null) {
+                    requestAnimationFrame(() => {
+                        initPointCloud(canvas, slideIndex, true);
+                    });
+                }
             }
 
             function closeLightbox() {
