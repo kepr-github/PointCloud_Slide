@@ -543,7 +543,26 @@
                 progressBarContainer.addEventListener('mousedown', progressDragStart);
                 progressBarContainer.addEventListener('touchstart', progressDragStart);
 
-                document.addEventListener('keydown', handleKeyDown);
+
+                // フルスクリーン状態の変更時にもサイズを再計算する
+                document.addEventListener('fullscreenchange', () => {
+                    updatePresentationSize();
+                    updateSpeakerNotes();
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                    switch(e.key) {
+                        case 'ArrowRight': case ' ': next(); break;
+                        case 'ArrowLeft': prev(); break;
+                        case 'f': toggleFullscreen(); break;
+                        case 'n': toggleSpeakerNotes(); break;
+                        case 'l': toggleLaser(); break;
+                        case 'Escape': closeLightbox(); break;
+                    }
+                });
+
+
 
                 document.addEventListener('mousemove', (e) => {
                     laserPointer.style.left = `${e.clientX}px`;
