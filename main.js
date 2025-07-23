@@ -570,27 +570,6 @@
             }
 
 
-            function handleKeyDown(e) {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-                switch(e.key) {
-                    case 'ArrowRight':
-                    case ' ':
-                        next();
-                        break;
-                    case 'ArrowLeft':
-                        prev();
-                        break;
-                    case 'f':
-                        toggleFullscreen();
-                        break;
-                    case 'n':
-                        toggleSpeakerNotes();
-                        break;
-                    case 'l':
-                        toggleLaser();
-                        break;
-                }
-            }
             
             function init() {
                 generateSlides();
@@ -618,17 +597,7 @@
                     document.body.classList.toggle('is-fullscreen', !!document.fullscreenElement);
                 });
 
-                document.addEventListener('keydown', (e) => {
-                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-                    switch(e.key) {
-                        case 'ArrowRight': case ' ': next(); break;
-                        case 'ArrowLeft': prev(); break;
-                        case 'f': toggleFullscreen(); break;
-                        case 'n': toggleSpeakerNotes(); break;
-                        case 'l': toggleLaser(); break;
-                        case 'p': exportPDF(); break;
-                    }
-                });
+                document.addEventListener('keydown', handleKeyDown);
 
 
 
