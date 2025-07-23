@@ -40,9 +40,20 @@
             let threeJSInstances = {};
             let isDraggingProgress = false;
             let defaultFooterText = '';
+            let lastPresentationWidth = 0;
+            let lastPresentationHeight = 0;
+            let lastRootFontSize = 0;
 
             function updatePresentationSize() {
                 const wrapper = document.getElementById('presentation-wrapper');
+
+                if (document.fullscreenElement && lastPresentationWidth && lastPresentationHeight && lastRootFontSize) {
+                    wrapper.style.width = `${lastPresentationWidth}px`;
+                    wrapper.style.height = `${lastPresentationHeight}px`;
+                    document.documentElement.style.fontSize = `${lastRootFontSize}px`;
+                    return;
+                }
+
                 const maxWidth = window.innerWidth * 0.9;
                 const maxHeight = window.innerHeight * 0.9;
                 let width = maxWidth;
@@ -62,6 +73,10 @@
                 // Slightly larger base font size for improved readability
                 const fontSize = 18 * scale * fontScale;
                 document.documentElement.style.fontSize = `${fontSize}px`;
+
+                lastPresentationWidth = width;
+                lastPresentationHeight = height;
+                lastRootFontSize = fontSize;
             }
 
             function generateSlides() {
