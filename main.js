@@ -16,6 +16,13 @@
             const timeElapsedEl = document.getElementById('timer-elapsed');
             const timeCurrentEl = document.getElementById('timer-current');
             const nextSlidePreviewEl = document.getElementById('next-slide-preview');
+
+            // Elements for optional external speaker notes window
+            let externalNotesWindow = null;
+            const notesContentEls = [notesContent];
+            const nextSlidePreviewEls = [nextSlidePreviewEl];
+            const timeElapsedEls = [timeElapsedEl];
+            const timeCurrentEls = [timeCurrentEl];
             const lightboxOverlay = document.getElementById('lightbox-overlay');
             const lightboxContent = document.getElementById('lightbox-content');
             const fileInputsContainer = document.getElementById('file-inputs');
@@ -166,31 +173,32 @@
             }
 
             function updateSpeakerNotes() {
-                if (slideData[currentSlide] && slideData[currentSlide].notes) {
-                    notesContent.innerHTML = slideData[currentSlide].notes;
-                } else {
-                    notesContent.innerHTML = 'このスライドにはノートがありません。';
-                }
-                
-                if (currentSlide < totalSlides - 1) {
-                    const nextSlideNode = slides[currentSlide + 1].cloneNode(true);
-                    nextSlideNode.classList.remove('is-active', 'is-exiting');
-                    nextSlideNode.style.opacity = '1';
-                    nextSlideNode.style.transform = 'none';
-                    nextSlideNode.style.position = 'relative';
-                    nextSlideNode.style.pointerEvents = 'none';
-                    nextSlideNode.querySelectorAll('.fragment').forEach(f => f.classList.add('is-visible'));
+                const notesHTML = (slideData[currentSlide] && slideData[currentSlide].notes)
+                    ? slideData[currentSlide].notes
+                    : 'このスライドにはノートがありません。';
+                notesContentEls.forEach(el => { el.innerHTML = notesHTML; });
 
-                    nextSlidePreviewEl.innerHTML = '';
-                    nextSlidePreviewEl.appendChild(nextSlideNode);
+                nextSlidePreviewEls.forEach(previewEl => {
+                    if (currentSlide < totalSlides - 1) {
+                        const previewNode = slides[currentSlide + 1].cloneNode(true);
+                        previewNode.classList.remove('is-active', 'is-exiting');
+                        previewNode.style.opacity = '1';
+                        previewNode.style.transform = 'none';
+                        previewNode.style.position = 'relative';
+                        previewNode.style.pointerEvents = 'none';
+                        previewNode.querySelectorAll('.fragment').forEach(f => f.classList.add('is-visible'));
 
-                    const previewRect = nextSlidePreviewEl.getBoundingClientRect();
-                    const slideRect = nextSlideNode.getBoundingClientRect();
-                    const scale = Math.min(previewRect.width / slideRect.width, previewRect.height / slideRect.height);
-                    nextSlideNode.style.transform = `scale(${scale})`;
-                } else {
-                    nextSlidePreviewEl.innerHTML = '<p style="text-align:center; color: var(--text-muted-color);">最後のスライドです</p>';
-                }
+                        previewEl.innerHTML = '';
+                        previewEl.appendChild(previewNode);
+
+                        const previewRect = previewEl.getBoundingClientRect();
+                        const slideRect = previewNode.getBoundingClientRect();
+                        const scale = Math.min(previewRect.width / slideRect.width, previewRect.height / slideRect.height);
+                        previewNode.style.transform = `scale(${scale})`;
+                    } else {
+                        previewEl.innerHTML = '<p style="text-align:center; color: var(--text-muted-color);">最後のスライドです</p>';
+                    }
+                });
             }
 
             function startTimers() {
@@ -199,8 +207,8 @@
                     const elapsed = new Date(now - startTime);
                     const minutes = String(elapsed.getUTCMinutes()).padStart(2, '0');
                     const seconds = String(elapsed.getUTCSeconds()).padStart(2, '0');
-                    timeElapsedEl.textContent = `${minutes}:${seconds}`;
-                    timeCurrentEl.textContent = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+                    timeElapsedEls.forEach(el => { el.textContent = `${minutes}:${seconds}`; });
+                    timeCurrentEls.forEach(el => { el.textContent = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }); });
                 }, 1000);
             }
             
@@ -319,7 +327,46 @@
                 });
             }
 
-            function toggleSpeakerNotes() { notesWindow.classList.toggle('is-hidden'); }
+            function openExternalSpeakerNotes() {
+                if (externalNotesWindow && !externalNotesWindow.closed) {
+                    externalNotesWindow.focus();
+                    return;
+                }
+                externalNotesWindow = window.open('', 'speaker-notes', 'width=900,height=700');
+                if (!externalNotesWindow) return;
+                const notesHTML = notesWindow.outerHTML.replace('is-hidden', '');
+                externalNotesWindow.document.write(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>Speaker Notes</title><link rel="stylesheet" href="style.css"></head><body>` + notesHTML + `</body></html>`);
+                externalNotesWindow.document.close();
+
+                const extNotesContent = externalNotesWindow.document.getElementById('notes-content');
+                const extNextPreview = externalNotesWindow.document.getElementById('next-slide-preview');
+                const extElapsed = externalNotesWindow.document.getElementById('timer-elapsed');
+                const extCurrent = externalNotesWindow.document.getElementById('timer-current');
+                externalNotesWindow.document.getElementById('close-notes-btn').addEventListener('click', toggleSpeakerNotes);
+
+                notesContentEls.push(extNotesContent);
+                nextSlidePreviewEls.push(extNextPreview);
+                timeElapsedEls.push(extElapsed);
+                timeCurrentEls.push(extCurrent);
+
+                externalNotesWindow.addEventListener('beforeunload', () => {
+                    notesContentEls.splice(notesContentEls.indexOf(extNotesContent), 1);
+                    nextSlidePreviewEls.splice(nextSlidePreviewEls.indexOf(extNextPreview), 1);
+                    timeElapsedEls.splice(timeElapsedEls.indexOf(extElapsed), 1);
+                    timeCurrentEls.splice(timeCurrentEls.indexOf(extCurrent), 1);
+                    externalNotesWindow = null;
+                });
+
+                updateSpeakerNotes();
+            }
+
+            function toggleSpeakerNotes() {
+                if (externalNotesWindow && !externalNotesWindow.closed) {
+                    externalNotesWindow.close();
+                } else {
+                    openExternalSpeakerNotes();
+                }
+            }
             function toggleTheme() { 
                 document.body.classList.toggle('theme-academic');
                 const isAcademic = document.body.classList.contains('theme-academic');
