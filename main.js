@@ -210,8 +210,10 @@
                         previewEl.appendChild(previewNode);
 
                         const previewRect = previewEl.getBoundingClientRect();
-                        const slideRect = previewNode.getBoundingClientRect();
-                        const scale = Math.min(previewRect.width / slideRect.width, previewRect.height / slideRect.height);
+                        const wrapperRect = document.getElementById('presentation-wrapper').getBoundingClientRect();
+                        const scale = Math.min(previewRect.width / wrapperRect.width, previewRect.height / wrapperRect.height);
+                        previewNode.style.width = `${wrapperRect.width}px`;
+                        previewNode.style.height = `${wrapperRect.height}px`;
                         previewNode.style.transform = `scale(${scale})`;
                     } else {
                         previewEl.innerHTML = '<p style="text-align:center; color: var(--text-muted-color);">最後のスライドです</p>';
