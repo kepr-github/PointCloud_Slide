@@ -320,7 +320,7 @@
                     }
                 }
 
-                const material = new THREE.PointsMaterial({ size: 0.015, vertexColors: useVertexColors });
+                const material = new THREE.PointsMaterial({ size: 0.012, vertexColors: useVertexColors });
                 if (!useVertexColors) {
                     material.color.set(0x00bfff);
                 }
@@ -345,7 +345,7 @@
                 let animationId;
                 function animate() {
                     animationId = requestAnimationFrame(animate);
-                    points.rotation.y += 0.0005;
+                    points.rotation.y += 0.0002;
                     controls.update();
                     renderer.render(scene, camera);
                 }
