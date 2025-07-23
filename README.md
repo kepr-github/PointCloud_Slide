@@ -157,6 +157,7 @@ editableSlides:
   - `text`: 表示する文字列
   - `fragment`: `true` にすると項目を順に表示
   - `jumpTo`: クリックしたときに移動するスライド番号
+- `content` は必須で、項目がない場合でも空の配列 `[]` を指定してください。
 
 **code**
 - `subTitle`: コードに付随する小見出し
