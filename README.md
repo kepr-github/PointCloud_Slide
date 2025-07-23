@@ -66,6 +66,16 @@ editableSlides:
 - スライドの種類（`type`）によって利用できるプロパティが異なります。
 - `defaultFooterText` を指定すると、各スライドで `footerText` を書かなくても共通のフッターを表示できます。
 
+### 独自の YAML ファイルを使用する
+
+`Slide/` ディレクトリにプレゼン用の YAML ファイルを置くと、`.gitignore` により Git の管理対象外となります。読み込むファイルは `yaml` クエリパラメータで指定できます。
+
+```bash
+http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
+```
+
+パラメータを省略した場合は既定の `slides.yaml` が読み込まれます。
+
 ## スライドテンプレートの利用方法
 
 本リポジトリには `slides_template.yaml` を同梱しています。新しいプレゼンテーションを作成する際はこのファイルをコピーし、内容を編集して `slides.yaml` として保存してください。
