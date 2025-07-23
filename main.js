@@ -218,7 +218,9 @@
                         previewNode.classList.remove('is-active', 'is-exiting');
                         previewNode.style.opacity = '1';
                         previewNode.style.transform = 'none';
-                        previewNode.style.position = 'relative';
+                        // Keep the cloned slide absolutely positioned so the
+                        // preview does not expand the sidebar layout
+                        previewNode.style.position = 'absolute';
                         previewNode.style.pointerEvents = 'none';
                         previewNode.querySelectorAll('.fragment').forEach(f => f.classList.add('is-visible'));
 
