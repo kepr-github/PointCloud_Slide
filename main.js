@@ -608,6 +608,7 @@
                 document.addEventListener('fullscreenchange', () => {
                     updatePresentationSize();
                     updateSpeakerNotes();
+                    document.body.classList.toggle('is-fullscreen', !!document.fullscreenElement);
                 });
 
                 document.addEventListener('keydown', (e) => {

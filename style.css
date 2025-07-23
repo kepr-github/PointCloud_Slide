@@ -184,6 +184,7 @@
         }
         #controls button:hover:not(:disabled) { background-color: var(--primary-color); color: var(--background-color); border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
         #controls button:disabled { border-color: #4a5568; color: #4a5568; cursor: not-allowed; background-color: transparent; }
+        body.is-fullscreen #controls { display: none; }
         #page-number {
             font-size: 1.2em;
             font-weight: 400;
