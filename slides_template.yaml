@@ -35,7 +35,10 @@ editableSlides:
     header: "セクション見出し"
     title: "点群データの例"
     caption: "点群の説明"
+    # points を指定すると乱数で点群を生成します
     points: 20000
+    # または pointCloudSrc に点群ファイルのパスを指定できます
+    # pointCloudSrc: "data/points.txt"
     footerText: ""
     notes: ""
 
@@ -50,7 +53,10 @@ editableSlides:
   - type: video
     header: "セクション見出し"
     title: "動画スライド"
+    # YouTube を埋め込む場合は videoId を指定します
     videoId: "YouTubeのID"
+    # ローカル動画を使用する場合は videoSrc を指定します
+    # videoSrc: "data/movie.mp4"
     caption: "動画の説明"
     footerText: ""
     notes: ""
