@@ -51,6 +51,13 @@
                 }
                 wrapper.style.width = `${width}px`;
                 wrapper.style.height = `${height}px`;
+
+                // Scale base font size relative to the presentation width so
+                // that text scales proportionally with the window size.
+                const baseWidth = 1280; // design width used for styling
+                const scale = width / baseWidth;
+                const fontSize = 16 * scale;
+                document.documentElement.style.fontSize = `${fontSize}px`;
             }
 
             function generateSlides() {
