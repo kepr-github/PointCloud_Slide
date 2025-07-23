@@ -342,6 +342,19 @@
                 });
             }
 
+            function handleKeyDown(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                switch (e.key) {
+                    case 'ArrowRight':
+                    case ' ': next(); break;
+                    case 'ArrowLeft': prev(); break;
+                    case 'f': toggleFullscreen(); break;
+                    case 'n': toggleSpeakerNotes(); break;
+                    case 'l': toggleLaser(); break;
+                    case 'Escape': closeLightbox(); break;
+                }
+            }
+
             function openExternalSpeakerNotes() {
                 if (externalNotesWindow && !externalNotesWindow.closed) {
                     externalNotesWindow.focus();
@@ -360,6 +373,8 @@
                 const extReset = externalNotesWindow.document.getElementById('timer-reset-btn');
                 externalNotesWindow.document.getElementById('close-notes-btn').addEventListener('click', toggleSpeakerNotes);
                 if (extReset) extReset.addEventListener('click', resetTimer);
+                externalNotesWindow.addEventListener('keydown', handleKeyDown);
+                externalNotesWindow.document.addEventListener('keydown', handleKeyDown);
 
                 notesContentEls.push(extNotesContent);
                 nextSlidePreviewEls.push(extNextPreview);
@@ -375,6 +390,8 @@
                     nextSlidePreviewEls.splice(nextSlidePreviewEls.indexOf(extNextPreview), 1);
                     timeElapsedEls.splice(timeElapsedEls.indexOf(extElapsed), 1);
                     timeCurrentEls.splice(timeCurrentEls.indexOf(extCurrent), 1);
+                    externalNotesWindow.removeEventListener('keydown', handleKeyDown);
+                    externalNotesWindow.document.removeEventListener('keydown', handleKeyDown);
                     externalNotesWindow = null;
                 });
 
@@ -482,6 +499,31 @@
                 lightboxOverlay.classList.remove('is-visible');
                 lightboxContent.innerHTML = ''; // 3Dインスタンスなどを破棄
             }
+
+            function handleKeyDown(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                switch(e.key) {
+                    case 'ArrowRight':
+                    case ' ':
+                        next();
+                        break;
+                    case 'ArrowLeft':
+                        prev();
+                        break;
+                    case 'f':
+                        toggleFullscreen();
+                        break;
+                    case 'n':
+                        toggleSpeakerNotes();
+                        break;
+                    case 'l':
+                        toggleLaser();
+                        break;
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                }
+            }
             
             function init() {
                 generateSlides();
@@ -501,6 +543,7 @@
                 progressBarContainer.addEventListener('mousedown', progressDragStart);
                 progressBarContainer.addEventListener('touchstart', progressDragStart);
 
+
                 // フルスクリーン状態の変更時にもサイズを再計算する
                 document.addEventListener('fullscreenchange', () => {
                     updatePresentationSize();
@@ -518,6 +561,8 @@
                         case 'Escape': closeLightbox(); break;
                     }
                 });
+
+
 
                 document.addEventListener('mousemove', (e) => {
                     laserPointer.style.left = `${e.clientX}px`;
