@@ -136,25 +136,83 @@ export function showSlide(
   }
 }
 
-export function next(slideData: Slide[], ...args: Parameters<typeof showSlide>): void {
+export function next(
+  slideData: Slide[],
+  notesContentEls: HTMLElement[],
+  nextSlidePreviewEls: HTMLElement[],
+  pageNumberEl: HTMLElement,
+  progressBar: HTMLElement,
+  progressHandle: HTMLElement | null,
+  prevBtn: HTMLButtonElement,
+  nextBtn: HTMLButtonElement
+): void {
   const fragments = state.slides[state.currentSlide].querySelectorAll('.fragment');
   if (state.currentFragment < fragments.length - 1) {
     state.currentFragment++;
-    showSlide(state.currentSlide, slideData, ...args.slice(2) as any);
+    showSlide(
+      state.currentSlide,
+      slideData,
+      notesContentEls,
+      nextSlidePreviewEls,
+      pageNumberEl,
+      progressBar,
+      progressHandle,
+      prevBtn,
+      nextBtn
+    );
   } else if (state.currentSlide < state.totalSlides - 1) {
-    showSlide(state.currentSlide + 1, slideData, ...args.slice(2) as any);
+    showSlide(
+      state.currentSlide + 1,
+      slideData,
+      notesContentEls,
+      nextSlidePreviewEls,
+      pageNumberEl,
+      progressBar,
+      progressHandle,
+      prevBtn,
+      nextBtn
+    );
   }
 }
 
-export function prev(slideData: Slide[], ...args: Parameters<typeof showSlide>): void {
+export function prev(
+  slideData: Slide[],
+  notesContentEls: HTMLElement[],
+  nextSlidePreviewEls: HTMLElement[],
+  pageNumberEl: HTMLElement,
+  progressBar: HTMLElement,
+  progressHandle: HTMLElement | null,
+  prevBtn: HTMLButtonElement,
+  nextBtn: HTMLButtonElement
+): void {
   const fragments = state.slides[state.currentSlide].querySelectorAll('.fragment');
   if (state.currentFragment > -1) {
     state.currentFragment--;
-    showSlide(state.currentSlide, slideData, ...args.slice(2) as any);
+    showSlide(
+      state.currentSlide,
+      slideData,
+      notesContentEls,
+      nextSlidePreviewEls,
+      pageNumberEl,
+      progressBar,
+      progressHandle,
+      prevBtn,
+      nextBtn
+    );
   } else if (state.currentSlide > 0) {
     const prevSlideFragments = state.slides[state.currentSlide - 1].querySelectorAll('.fragment');
     state.currentFragment = prevSlideFragments.length - 1;
-    showSlide(state.currentSlide - 1, slideData, ...args.slice(2) as any);
+    showSlide(
+      state.currentSlide - 1,
+      slideData,
+      notesContentEls,
+      nextSlidePreviewEls,
+      pageNumberEl,
+      progressBar,
+      progressHandle,
+      prevBtn,
+      nextBtn
+    );
   }
 }
 
