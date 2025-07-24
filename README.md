@@ -58,6 +58,10 @@ docker build -t pointcloud-slide .
 docker run --rm -p 8000:8000 pointcloud-slide
 ```
 
+このイメージには Node.js と Python の依存パッケージが含まれているため、
+コンテナ内で `npm run build` や `python tools/validate_slides.py` など
+すべてのコマンドを実行できます。
+
 変更をリアルタイムで反映させながら編集したい場合は、ホストのフォルダをコンテナにマウントします。
 
 ```bash
