@@ -1,0 +1,3 @@
+export function render(data, footer) {
+  return `<header class="slide-header">${data.header || ''}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container" data-slide-index="${data.index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${data.pointCloudSrc ? `data-src="${data.pointCloudSrc}"` : ''}></canvas></div><p style="text-align: center;">${data.caption || ''}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+}

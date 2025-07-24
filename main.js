@@ -1,3 +1,6 @@
+import { slideRegistry, registerSlideType } from "./slideRegistry.js";
+
+
         // --- プレゼンテーションエンジンのロジック ---
         document.addEventListener('DOMContentLoaded', () => {
             const presentation = document.getElementById('presentation');
@@ -84,52 +87,26 @@
                 let fileInputHTML = '';
 
                 slideData.forEach((data, index) => {
-                    let contentHTML = '';
+                    const renderer = slideRegistry[data.type];
+                    if (!renderer || typeof renderer.render !== "function") return;
                     const footer = data.footerText !== undefined ? data.footerText : defaultFooterText;
-                    // ファイル入力が必要なスライドのためにinput要素を準備
                     if (data.fileInputId) {
                         fileInputHTML += `<input type="file" id="${data.fileInputId}" />`;
                     }
-
-                    switch (data.type) {
-                        case 'title':
-                            contentHTML = `<div class="title-slide"><h1>${data.title}</h1><p class="author">${data.author}</p><p class="date">${data.date}</p></div>`;
-                            break;
-                        case 'list':
-                            const listTag = data.ordered === false ? 'ul' : 'ol';
-                            const listItems = data.content.map(item => `<li ${item.jumpTo ? `data-jump-to="${item.jumpTo}"` : ''} class="${item.fragment ? 'fragment' : ''}">${item.text || item}</li>`).join('');
-                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><${listTag}>${listItems}</${listTag}></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
-                            break;
-                        case 'code':
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content three-column"><div class="column"><h3>${data.subTitle}</h3><p>${data.text}</p></div><div class="column"><pre><code class="language-${data.language || 'plaintext'}">${data.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
-                            break;
-                        case 'image':
-                             if (data.listContent && data.listContent.length) {
-                                const listItemsImg = data.listContent.map(item => `<li ${item.jumpTo ? `data-jump-to="${item.jumpTo}"` : ''} class="${item.fragment ? 'fragment' : ''}">${item.text || item}</li>`).join('');
-                                contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content two-column"><div class="column"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p></div><div class="column"><ul>${listItemsImg}</ul></div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
-                             } else {
-                                contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="image-slide-content"><img src="${data.imageSrc || ''}" alt="${data.title}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''}></div><p>${data.caption || ''}</p><div>${data.math || ''}</div></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
-                             }
-                            break;
-                        case 'video':
-                             const isYouTube = !!data.videoId && !data.videoSrc;
-                             let videoSrc = data.videoSrc || (isYouTube ? `https://www.youtube.com/embed/${data.videoId}` : '');
-                             contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content"><div class="video-slide-content"><${isYouTube ? 'iframe' : 'video'} src="${videoSrc}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${!isYouTube ? 'controls' : ''} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></${isYouTube ? 'iframe' : 'video'}></div><p>${data.caption || ''}</p></div><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
-                            break;
-                        case 'pointCloud':
-                            contentHTML = `<header class="slide-header">${data.header}</header><h2>${data.title}</h2><div class="slide-content point-cloud-container" data-slide-index="${index}"><canvas class="point-cloud-canvas" data-points="${data.points || 0}" data-use-vertex-colors="${data.useVertexColors || false}" ${data.fileInputId ? `data-file-input-id="${data.fileInputId}"` : ''} ${data.pointCloudSrc ? `data-src="${data.pointCloudSrc}"` : ''}></canvas></div><p style="text-align: center;">${data.caption}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
-                            break;
-                        case 'end':
-                            contentHTML = `<div class="end-slide"><h1>${data.title}</h1></div>`;
-                            break;
-                    }
+                    const contentHTML = renderer.render({ ...data, index }, footer);
                     slideHTML += `<div class="slide ${data.type}-slide" data-index="${index}">${contentHTML}</div>`;
                 });
 
                 presentation.innerHTML = slideHTML;
                 fileInputsContainer.innerHTML = fileInputHTML;
-                slides = document.querySelectorAll('.slide');
+                slides = document.querySelectorAll(".slide");
                 hljs.highlightAll();
+                slides.forEach((el, i) => {
+                    const r = slideRegistry[slideData[i].type];
+                    if (r && typeof r.setup === "function") {
+                        r.setup(el, slideData[i], i);
+                    }
+                });
             }
             
             function showSlide(newIndex, newFragment = -1) {
@@ -596,7 +573,6 @@
                 return 0;
             }
 
-
             
             function init() {
                 generateSlides();
@@ -616,7 +592,6 @@
                 progressBarContainer.addEventListener('mousedown', progressDragStart);
                 progressBarContainer.addEventListener('touchstart', progressDragStart);
 
-
                 // フルスクリーン状態の変更時にもサイズを再計算する
                 document.addEventListener('fullscreenchange', () => {
                     updatePresentationSize();
@@ -625,8 +600,6 @@
                 });
 
                 document.addEventListener('keydown', handleKeyDown);
-
-
 
                 document.addEventListener('mousemove', (e) => {
                     laserPointer.style.left = `${e.clientX}px`;

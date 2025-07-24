@@ -276,6 +276,29 @@ fontScale: 1.25  # 例: 1.5 にすると文字が大きく表示されます
 | `serve.py` | ローカルサーバー起動用の補助スクリプト |
 | `Dockerfile` | Docker イメージ作成用の設定 |
 
+## カスタムスライドタイプを追加する
+
+スライドの各種類は `slideTypes/` にあるモジュールで定義されています。モジュールは必ず `render(data, footer)` をエクスポートし、必要なら `setup(slideEl, data, index)` を実装します。
+
+新しいタイプを追加する例:
+```javascript
+// slideTypes/myCustom.js
+export function render(data, footer) {
+    return `<h2>${data.title}</h2><p>${data.text}</p><footer class="slide-footer"><span>${footer}</span><span class="page-info"></span></footer>`;
+}
+export function setup(el, data) {
+    // 初期化コード
+}
+```
+
+登録は `slideRegistry.js` で行います。
+```javascript
+import * as myCustom from './slideTypes/myCustom.js';
+registerSlideType('myCustom', myCustom);
+```
+
+これで YAML で `type: myCustom` を指定すると利用できます。
+
 
 
 ## ライセンス
