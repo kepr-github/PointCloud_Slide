@@ -77,6 +77,10 @@ editableSlides:
 - スライドの種類（`type`）によって利用できるプロパティが異なります。
 - `defaultFooterText` を指定すると、各スライドで `footerText` を書かなくても共通のフッターを表示できます。
 
+### ブラウザで YAML を編集する
+
+サーバー起動後に `editor.html` を開くと、GUI でスライドファイルを編集できます。`Import` ボタンで既存の YAML を読み込み、`Add Slide` でスライドを追加します。各スライドを選択すると右側に編集フォームが表示され、`Download YAML` で保存できます。
+
 ### 独自の YAML ファイルを使用する
 
 `Slide/` ディレクトリにプレゼン用の YAML ファイルを置くと、`.gitignore` により Git の管理対象外となります。読み込むファイルは `yaml` クエリパラメータで指定できます。
@@ -280,6 +284,8 @@ fontScale: 1.25  # 例: 1.5 にすると文字が大きく表示されます
 | -------- | ---- |
 | `index.html` | スライド表示用のメイン HTML |
 | `main.js` | スライドの読み込みや操作を司る JavaScript |
+| `editor.html` | YAML 編集用の GUI |
+| `editor.js` | `editor.html` 用のスクリプト |
 | `style.css` | テーマやレイアウトを定義するスタイルシート |
 | `slides.yaml` | サンプルのスライドデータ |
 | `slides_template.yaml` | 新しいプレゼン作成用のテンプレート |
