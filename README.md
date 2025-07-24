@@ -293,6 +293,26 @@ fontScale: 1.25  # 例: 1.5 にすると文字が大きく表示されます
 | `Dockerfile` | Docker イメージ作成用の設定 |
 | `tools/validate_slides.py` | YAML をスキーマで検証するツール |
 
+## Windows向け実行ファイルの作成
+
+Python がインストールされていない環境でも `serve.py` を実行できるよう、
+PyInstaller を利用して単一の実行ファイルを作成できます。
+
+1. 依存パッケージをインストールします。
+
+```bash
+pip install -r requirements.txt
+```
+
+2. ビルドスクリプトを実行します。
+
+```bash
+python tools/build_exe.py
+```
+
+`dist/serve.exe` (Linux では `dist/serve`) が生成されます。
+起動するとサーバーが立ち上がり、自動でブラウザが開きます。
+
 
 
 ## ライセンス
