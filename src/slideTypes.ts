@@ -1,7 +1,7 @@
 // TypeScript definitions for slide data structures
 
 /** Base properties shared by all slide types */
-interface BaseSlide {
+export interface BaseSlide {
     /** Slide type identifier */
     type: string;
     /** Optional section header */
@@ -19,7 +19,7 @@ interface BaseSlide {
 }
 
 /** Individual item used within a list slide */
-interface ListItem {
+export interface ListItem {
     /** Text content of the item */
     text: string;
     /** Reveal item incrementally */
@@ -29,14 +29,14 @@ interface ListItem {
 }
 
 /** Title slide */
-interface TitleSlide extends BaseSlide {
+export interface TitleSlide extends BaseSlide {
     type: 'title';
     author: string;
     date?: string;
 }
 
 /** Bullet or numbered list slide */
-interface ListSlide extends BaseSlide {
+export interface ListSlide extends BaseSlide {
     type: 'list';
     /** true for numbered list, false for bullet list */
     ordered?: boolean;
@@ -45,7 +45,7 @@ interface ListSlide extends BaseSlide {
 }
 
 /** Code sample slide */
-interface CodeSlide extends BaseSlide {
+export interface CodeSlide extends BaseSlide {
     type: 'code';
     subTitle?: string;
     text?: string;
@@ -54,7 +54,7 @@ interface CodeSlide extends BaseSlide {
 }
 
 /** Image slide */
-interface ImageSlide extends BaseSlide {
+export interface ImageSlide extends BaseSlide {
     type: 'image';
     imageSrc?: string;
     caption?: string;
@@ -63,7 +63,7 @@ interface ImageSlide extends BaseSlide {
 }
 
 /** Video or local movie slide */
-interface VideoSlide extends BaseSlide {
+export interface VideoSlide extends BaseSlide {
     type: 'video';
     /** YouTube video ID. If absent, local file playback is used. */
     videoId?: string;
@@ -71,7 +71,7 @@ interface VideoSlide extends BaseSlide {
 }
 
 /** Point cloud slide rendered via three.js */
-interface PointCloudSlide extends BaseSlide {
+export interface PointCloudSlide extends BaseSlide {
     type: 'pointCloud';
     /** Number of random points when no file is provided */
     points?: number;
@@ -88,7 +88,7 @@ interface PointCloudSlide extends BaseSlide {
 }
 
 /** Final slide */
-interface EndSlide extends BaseSlide {
+export interface EndSlide extends BaseSlide {
     type: 'end';
 }
 

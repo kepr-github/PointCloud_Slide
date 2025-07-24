@@ -1,0 +1,26 @@
+{
+  "name": "pointcloud_slide",
+  "version": "1.0.0",
+  "description": "このリポジトリは、ウェブブラウザで実行できるプレゼンテーションシステムです。以下では、プレゼンを自分のPCで表示する方法と、スライド内容を変更する手順を説明します。",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "html2canvas": "^1.4.1",
+    "js-yaml": "^4.1.0",
+    "jspdf": "^3.0.1",
+    "mathjax-full": "^3.2.2",
+    "three": "^0.178.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.5"
+  }
+}
