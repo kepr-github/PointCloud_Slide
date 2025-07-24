@@ -110,6 +110,16 @@ http://localhost:8000/index.html?yaml=Slide/my_presentation.yaml
 
 パスは `index.html` からの相対パスで記述してください。
 
+### YAML の検証
+
+スライドファイルを編集したあとは、JSON Schema に基づく検証を行うことができます。
+
+```bash
+python tools/validate_slides.py slides.yaml
+```
+
+初回は `pip install jsonschema PyYAML` を実行して依存パッケージをインストールしてください。
+
 ## スライドテンプレートの利用方法
 
 本リポジトリには `slides_template.yaml` を同梱しています。新しいプレゼンテーションを作成する際はこのファイルをコピーし、内容を編集して `slides.yaml` として保存してください。
@@ -275,6 +285,7 @@ fontScale: 1.25  # 例: 1.5 にすると文字が大きく表示されます
 | `slides_template.yaml` | 新しいプレゼン作成用のテンプレート |
 | `serve.py` | ローカルサーバー起動用の補助スクリプト |
 | `Dockerfile` | Docker イメージ作成用の設定 |
+| `tools/validate_slides.py` | YAML をスキーマで検証するツール |
 
 
 
