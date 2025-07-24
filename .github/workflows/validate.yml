@@ -1,0 +1,19 @@
+name: Validate slides
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install PyYAML jsonschema
+      - name: Validate slides
+        run: python tools/validate_slides.py slides.yaml
