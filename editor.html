@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Editor</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</head>
+<body>
+<h1>Slide Editor</h1>
+<div>
+  <label>Default footer: <input id="default-footer" type="text"></label>
+  <label>Font scale: <input id="font-scale" type="number" step="0.1"></label>
+  <label>Import: <input type="file" id="import-input" accept=".yaml,.yml"></label>
+  <button id="export-btn">Download YAML</button>
+</div>
+<div style="display:flex; gap:1rem; margin-top:1rem;">
+  <div style="flex:1;">
+    <button id="add-slide">Add Slide</button>
+    <ul id="slide-list"></ul>
+  </div>
+  <div style="flex:2;" id="form-container"></div>
+</div>
+<script src="editor.js"></script>
+</body>
+</html>
