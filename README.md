@@ -62,7 +62,8 @@ docker run --rm -p 8000:8000 pointcloud-slide
 
 このイメージには Node.js と Python の依存パッケージが含まれているため、
 コンテナ内で `npm run build` や `python tools/validate_slides.py` など
-すべてのコマンドを実行できます。
+すべてのコマンドを実行できます。起動時には `serve.py` が実行されるため、
+ブラウザの切断による `BrokenPipeError` がログに表示されることはありません。
 
 変更をリアルタイムで反映させながら編集したい場合は、ホストのフォルダをコンテナにマウントします。
 
