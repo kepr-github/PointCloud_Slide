@@ -1,6 +1,27 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import type { Slide } from './slideTypes';
+import type { Slide, PointCloudData } from './slideTypes';
+
+function parsePointCloud(text: string): PointCloudData {
+  const vertices: number[] = [];
+  const colors: number[] = [];
+  text.split(/\r?\n/).forEach(line => {
+    const parts = line.trim().split(/[\s,]+/).map(Number);
+    if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
+      vertices.push(parts[0], parts[1], parts[2]);
+      if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
+        let [r, g, b] = parts.slice(3, 6);
+        if (r > 1 || g > 1 || b > 1) {
+          r /= 255;
+          g /= 255;
+          b /= 255;
+        }
+        colors.push(r, g, b);
+      }
+    }
+  });
+  return { vertices, colors };
+}
 
 export interface ThreeInstance {
   animationId: number;
@@ -23,24 +44,9 @@ export function initPointCloud(
     fetch(src)
       .then(res => res.text())
       .then(text => {
-        const vertices: number[] = [];
-        const colors: number[] = [];
-        text.split(/\r?\n/).forEach(line => {
-          const parts = line.trim().split(/[\s,]+/).map(Number);
-          if (parts.length >= 3 && parts.slice(0, 3).every(n => !isNaN(n))) {
-            vertices.push(parts[0], parts[1], parts[2]);
-            if (parts.length >= 6 && parts.slice(3, 6).every(n => !isNaN(n))) {
-              let [r, g, b] = parts.slice(3, 6);
-              if (r > 1 || g > 1 || b > 1) {
-                r /= 255;
-                g /= 255;
-                b /= 255;
-              }
-              colors.push(r, g, b);
-            }
-          }
-        });
-        slideData[slideIndex].pointData = { vertices, colors } as any;
+        const data = parsePointCloud(text);
+        slideData[slideIndex].pointData = data;
+        const { colors } = data;
         if (colors.length > 0) {
           (canvas as HTMLElement).dataset.useVertexColors = 'true';
         }
