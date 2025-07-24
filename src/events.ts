@@ -33,7 +33,8 @@ export function toggleTheme(
   themes: string[],
   currentIndex: { value: number }
 ) {
-  document.body.classList.remove(themes[currentIndex.value]);
+  const oldTheme = themes[currentIndex.value];
+  if (oldTheme) document.body.classList.remove(oldTheme);
   currentIndex.value = (currentIndex.value + 1) % themes.length;
   const newTheme = themes[currentIndex.value];
   if (newTheme) document.body.classList.add(newTheme);
