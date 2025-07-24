@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remote Control</title>
+    <style>
+        body{font-family:sans-serif;text-align:center;margin-top:50px;}
+        button{font-size:1.5em;margin:0.5em;padding:0.5em 1em;}
+    </style>
+</head>
+<body>
+    <button id="prev">Prev</button>
+    <button id="next">Next</button>
+    <script>
+        const httpPort = location.port ? parseInt(location.port,10) : (location.protocol === 'https:' ? 443 : 80);
+        const wsPort = httpPort + 1;
+        const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
+        const ws = new WebSocket(`${wsProtocol}://${location.hostname}:${wsPort}`);
+        document.getElementById('prev').onclick = () => ws.send(JSON.stringify({type:'command',command:'prev'}));
+        document.getElementById('next').onclick = () => ws.send(JSON.stringify({type:'command',command:'next'}));
+    </script>
+</body>
+</html>

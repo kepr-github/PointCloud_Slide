@@ -10,6 +10,11 @@ import webbrowser
 from contextlib import suppress
 from typing import IO
 import shutil
+import asyncio
+import threading
+from typing import Set
+import json
+import websockets
 
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -54,11 +59,46 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+clients: Set[websockets.WebSocketServerProtocol] = set()
+
+
+async def ws_handler(websocket: websockets.WebSocketServerProtocol) -> None:
+    """Receive a message and broadcast it to other clients."""
+    clients.add(websocket)
+    try:
+        async for message in websocket:
+            disconnected = []
+            for client in clients:
+                if client is not websocket:
+                    try:
+                        await client.send(message)
+                    except Exception:
+                        disconnected.append(client)
+            for dc in disconnected:
+                clients.discard(dc)
+    finally:
+        clients.discard(websocket)
+
+
+async def run_ws_server(port: int) -> None:
+    async with websockets.serve(ws_handler, "", port):
+        await asyncio.Future()
+
+
 def start_server(port: int, open_browser: bool) -> None:
-    """Start the HTTP server on ``port``."""
+    """Start the HTTP server and WebSocket server on ``port``."""
+    ws_port = port + 1
+
+    def run_ws() -> None:
+        asyncio.run(run_ws_server(ws_port))
+
+    ws_thread = threading.Thread(target=run_ws, daemon=True)
+    ws_thread.start()
+
     with socketserver.TCPServer(("", port), RequestHandler) as httpd:
         url = f"http://localhost:{port}/index.html"
         print(f"Serving at {url}")
+        print(f"WebSocket at ws://localhost:{ws_port}")
         if open_browser:
             with suppress(Exception):
                 webbrowser.open(url)

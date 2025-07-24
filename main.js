@@ -28,6 +28,26 @@
             const timeElapsedEls = [timeElapsedEl];
             const timeCurrentEls = [timeCurrentEl];
             const fileInputsContainer = document.getElementById('file-inputs');
+
+            const httpPort = location.port ? parseInt(location.port,10) : (location.protocol === 'https:' ? 443 : 80);
+            const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
+            const wsPort = httpPort + 1;
+            let ws;
+            try {
+                ws = new WebSocket(`${wsProtocol}://${location.hostname}:${wsPort}`);
+                ws.addEventListener('message', (e) => {
+                    try {
+                        const msg = JSON.parse(e.data);
+                        if (msg.type === 'command') {
+                            if (msg.command === 'next') next();
+                            else if (msg.command === 'prev') prev();
+                            else if (msg.command === 'goto') showSlide(msg.slide, msg.fragment);
+                        }
+                    } catch {}
+                });
+            } catch (err) {
+                console.warn('WebSocket connection failed', err);
+            }
             
             let currentSlide = 0;
             let currentFragment = -1;
@@ -173,6 +193,9 @@
                 updateControls();
                 if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
                     MathJax.typesetPromise();
+                }
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({type:'slide', slide: currentSlide, fragment: currentFragment}));
                 }
             }
 
