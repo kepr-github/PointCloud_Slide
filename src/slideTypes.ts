@@ -28,6 +28,12 @@ export interface ListItem {
     jumpTo?: number;
 }
 
+/** Parsed point cloud data */
+export interface PointCloudData {
+    vertices: number[];
+    colors: number[];
+}
+
 /** Title slide */
 export interface TitleSlide extends BaseSlide {
     type: 'title';
@@ -81,10 +87,7 @@ export interface PointCloudSlide extends BaseSlide {
     useVertexColors?: boolean;
     caption?: string;
     /** Populated when loading a file */
-    pointData?: {
-        vertices: number[];
-        colors: number[];
-    };
+    pointData?: PointCloudData;
 }
 
 /** Final slide */
